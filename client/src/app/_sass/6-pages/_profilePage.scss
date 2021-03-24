@@ -1,0 +1,18 @@
+.profilepage {
+  &--overviewcard {
+    display: flex;
+  }
+
+  &--image {
+    &-container {
+      padding: $gutter-small;
+      border-right: 3px solid $color-secondary;
+      width: 20vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    width: 90%;
+  }
+}
