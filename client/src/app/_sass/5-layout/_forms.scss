@@ -1,0 +1,42 @@
+.button {
+  &--large, &--medium, &--small {
+    background-color: $color-primary;
+    border: 3px solid $color-secondary;
+    padding: $gutter-small;
+    font-size: 25px;
+    margin-bottom: $gutter-small;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &--large {
+    width: 100%;
+  }
+  &--medium {
+    width: 60%;
+  }
+  &--small {
+    width: 25%;
+  }
+}
+
+.textinput {
+  &--large, &--medium, &--small {
+    background-color: white;
+    border: 3px solid $color-secondary;
+    padding: $gutter-small;
+    font-size: 25px;
+    margin-bottom: $gutter-small;
+  }
+  &--large {
+    width: 100%;
+  }
+  &--medium {
+    width: 60%;
+  }
+  &--small {
+    width: 25%;
+  }
+}
