@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/bootstrap";
+
+.modal-header {
+    padding: 0;
+}
+.modal-footer {
+    border-top:0;
+}
+
+.modal-body .switch-component {
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: $color-secondary;
+
+  &:hover {
+    color: $color-secondary;
+  }
+}

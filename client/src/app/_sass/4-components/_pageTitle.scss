@@ -3,6 +3,7 @@
   padding: $gutter-medium;
   border-bottom: 3px solid $color-secondary;
   text-align: right;
+  text-transform: capitalize;
 }
 
 @media screen and (max-width: 449px) {

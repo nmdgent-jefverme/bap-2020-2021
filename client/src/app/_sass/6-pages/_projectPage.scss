@@ -1,0 +1,58 @@
+.projectpage {
+  display: flex;
+
+  &--card {
+    width: 20%;
+    flex-direction: column;
+    margin-right: $gutter-small;
+    height: 30vh;
+    align-items: center;
+
+    &--title {
+      border-bottom: 1px solid $color-secondary;
+      width: 100%;
+    }
+
+    &--audio-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      > svg {
+        font-size: 100px;
+        font-weight: 200;
+        margin-bottom: $gutter-medium;
+      }
+    }
+
+    &--image {
+      max-width: 100%;
+      max-height: 20vh;
+    }
+  }
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: white;
+  border: none;
+  outline: none;
+}
+
+audio {
+  border: 3px solid $color-secondary;
+  border-radius: $border-radius;
+
+  &:focus {outline: none;}
+}
+
+@media screen and (max-width: 449px) {
+  .projectpage {
+    flex-direction: column;
+    &--card {
+      width: 100%;
+      margin: 0;
+      margin-bottom: $gutter-small;
+    }
+  }
+}

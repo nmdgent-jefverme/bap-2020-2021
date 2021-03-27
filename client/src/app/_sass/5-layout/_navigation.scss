@@ -87,7 +87,7 @@
   }
 
   &--logo--container{
-    position: fixed;
+    position: absolute;
     height: 50px;
     right: 15px;
     width: 50px;
@@ -176,7 +176,7 @@
     &--logo--container{
       position: absolute;
       bottom: 30px;
-      left: 20px;
+      left: 23px;
       display: flex;
       align-items: center;
     }
@@ -194,7 +194,10 @@
   }
 
   .logout {
+    transition: 0.2s;
     position: fixed;
+    border-bottom: 3px solid $color-secondary;
     bottom: 100px;
+    padding-bottom: 10px;
   }
 }

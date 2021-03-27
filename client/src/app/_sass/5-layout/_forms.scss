@@ -20,6 +20,10 @@
   &--small {
     width: 25%;
   }
+
+  &:active {
+    outline: none;
+  }
 }
 
 .textinput {
@@ -38,5 +42,23 @@
   }
   &--small {
     width: 25%;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.errors {
+  color: darkred;
+  font-size: 20px;
+  
+  > ul {
+    margin: 0;
+  }
+
+  > p {
+    font-weight: 400;
+    margin-bottom: $gutter-small;
   }
 }

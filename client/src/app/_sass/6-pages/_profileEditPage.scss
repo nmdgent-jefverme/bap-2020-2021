@@ -1,0 +1,18 @@
+.profile-edit {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 799px) {
+  .profile-edit {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 449px) {
+  .profile-edit {
+    width: 100%;
+  }
+}

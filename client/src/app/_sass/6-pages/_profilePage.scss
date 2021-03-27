@@ -1,5 +1,5 @@
 .profilepage {
-  &--overviewcard {
+  &--profilecard {
     display: flex;
   }
 
@@ -13,6 +13,66 @@
       justify-content: center;
     }
 
-    width: 90%;
+    width: 50%;
+    padding: $gutter-small;
+  }
+
+  &--info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 80vw;
+  }
+
+  &--overview {
+    margin-top: $gutter-small;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &--overviewcard {
+    width: 49%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    &--link {
+      font-size: 20px;
+    }
+  }
+
+  &--edit {
+    font-size: 30px;
+    margin-left: $gutter-medium;
+  }
+}
+
+@media screen and (max-width: 449px) {
+  .profilepage {
+    &--profilecard {
+      flex-direction: column;
+    }
+  
+    &--image {
+      &-container {
+        border-right: none;
+        border-bottom: 3px solid $color-secondary;
+        width: 100%;
+      }
+  
+      width: 30%;
+      padding: $gutter-small;
+    }
+
+    &--overview {
+      margin-top: $gutter-small;
+      display: flex;flex-direction: column;
+    }
+
+    &--overviewcard {
+      margin-top: $gutter-small;
+      width: 100%;
+    }
   }
 }

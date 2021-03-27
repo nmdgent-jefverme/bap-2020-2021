@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\api\v1\BandController;
+use App\Http\Controllers\api\v1\LoginController;
+use App\Http\Controllers\api\v1\UserController;
 use App\Models\Band;
+use App\Models\Project;
+use App\Models\Project_idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,20 +20,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [RegisterController::class, 'register']);
-Route::post('login', [RegisterController::class, 'login']);
-// Route::get('bands', [BandController::class, 'index']);
-
-// Route::get('bands', function() {
-//     // If the Content-Type and Accept headers are set to 'application/json',
-//     // this will return a JSON structure. This will be cleaned up later.
-//     return Band::all();
-// });
-
 Route::middleware('auth:api')->group( function () {
-    Route::get('bands', function() {
-        // If the Content-Type and Accept headers are set to 'application/json',
-        // this will return a JSON structure. This will be cleaned up later.
-        return Band::all();
+    Route::get('/bands', [BandController::class, 'index']);
+    Route::prefix('/user')->group( function () {
+        Route::post('/edit/{user}', [UserController::class, 'editUser']);
     });
+});
+
+Route::get('/projects/{project}', function ( Project $project ) {
+    // return $id;
+    return $project->with('project_ideas')->get();
+});
+
+
+//User routes
+Route::prefix('/user')->group( function () {
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/register', [LoginController::class, 'register']);
 });
