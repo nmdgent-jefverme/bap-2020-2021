@@ -3,11 +3,12 @@
 // .modal-header {
 //     padding: 0;
 // }
-// .modal-footer {
-//     border-top:0;
-// }
+.modal-footer, .modal-header {
+    border: none;
+}
 
-.modal-body .switch-component {
+.modal-body .switch-component, .modal-content {
+  border-radius: $border-radius;
   border: none;
 }
 

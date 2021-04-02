@@ -137,7 +137,7 @@ const ProjectPage = () => {
           } */}
           {
             !!piles && piles.map((pile, key) => 
-              <Pile key={key} color={pile.color.id} title={pile.name} />
+              <Pile key={key} color={pile.color.id} title={pile.name} ideas={pile.ideas} />
             )
           }
         </div>

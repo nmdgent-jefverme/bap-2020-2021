@@ -1,6 +1,6 @@
 import React from 'react';
-import { FiEdit } from 'react-icons/fi';
-import { BsPlus } from 'react-icons/bs'
+import { FiPlus } from 'react-icons/fi'
+import { PopupEdit } from '../popup';
 import Card from './Card';
 
 const Pile = ({title, color = 1, ideas, editFunction, plusFunction}) => {
@@ -9,11 +9,17 @@ const Pile = ({title, color = 1, ideas, editFunction, plusFunction}) => {
       <Card extraClass={`pile--card color_${color}`}>
         <h3>{title}</h3>
         <div className='pile--actions'>
-          <BsPlus className='pile--icon' onClick={plusFunction}/>
-          <FiEdit className='pile--icon' onClick={editFunction} />
+          <FiPlus className='pile--icon' onClick={plusFunction}/>
+          <PopupEdit className='pile--icon' title={title} onSubmit={editFunction} />
         </div>
       </Card>
-      <Card extraClass={`pile--card color_${color}`}><span>1</span></Card>
+      {
+        ideas.map((idea, key) => 
+          <Card key={key} extraClass={`pile--card color_${color}`}>
+            <span>{idea.title}</span>
+          </Card>
+        )
+      }
     </div>
   )
 }

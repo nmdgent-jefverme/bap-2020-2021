@@ -1,5 +1,5 @@
 .pile {
-  width: 30%;
+  width: 33%;
   &--card {
     margin: $gutter-small;
     display: flex;
@@ -9,5 +9,11 @@
   }
   &--icon {
     font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 449px) {
+  .pile {
+    width: 100%;
   }
 }
