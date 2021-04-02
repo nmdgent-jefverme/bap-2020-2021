@@ -1,5 +1,5 @@
 .navigation, .navigation__large {
-  background-color: $color-primary;
+  background-color: $color-white;
   position: absolute;
   left: 0;
   top: 0;
@@ -7,11 +7,13 @@
   width: 100vw;
   align-items: center;
   overflow: hidden;
-  border-bottom: 3px solid $color-secondary;
   border-right: none;
   transition: 0.2s;
   color: $color-secondary;
   z-index: 999;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
 
   &__large {
     height: 100vh;
@@ -38,8 +40,11 @@
     color: $color-secondary;
 
     &__active {
-      background-color: white;
+      background-color: $color-primary;
       border-radius: $border-radius-m;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     }
   }
 
@@ -99,7 +104,7 @@
 }
 
 .projects {
-  padding: $gutter-xsmall;
+  padding: $gutter-small;
 }
 
 .logout {
@@ -113,7 +118,6 @@
 
 @media screen and (min-width: 450px) {
   .navigation, .navigation__large {
-    background-color: $color-primary;
     position: absolute;
     left: 0;
     top: 0;
@@ -121,7 +125,6 @@
     width: 90px;
     align-items: center;
     overflow: hidden;
-    border-right: 3px solid $color-secondary;
     transition: 0.2s;
     color: $color-secondary;
     z-index: 999;
@@ -159,8 +162,11 @@
       margin-bottom: $gutter-large;
   
       &__active {
-        background-color: white;
-        border-radius: $border-radius-m;
+        background-color: $color-primary;
+        border-radius: 25px;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
       }
     }
   
@@ -169,7 +175,7 @@
   
       &-label {
         font-size: 35px;
-        margin-left: 20px;
+        margin: 0 20px;
       }
     }
   

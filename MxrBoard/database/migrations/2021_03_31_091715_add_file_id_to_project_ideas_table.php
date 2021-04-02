@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersInProjectTable extends Migration
+class AddFileIdToProjectIdeasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateUsersInProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_in_projects', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('project_id')->constrained();
+        Schema::table('project_ideas', function (Blueprint $table) {
+            $table->foreignId('file_id')->nullable()->constrained();
         });
     }
 
@@ -26,6 +25,8 @@ class CreateUsersInProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_in_projects');
+        Schema::table('project_ideas', function (Blueprint $table) {
+            $table->dropColumn('file_id');
+        });
     }
 }

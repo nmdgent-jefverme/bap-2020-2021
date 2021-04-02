@@ -12,7 +12,11 @@ class Project extends Model
         'title'
     ];
 
-    public function project_ideas () {
-        return $this->hasMany(Project_idea::class);
+    public function piles () {
+        return $this->hasMany(Pile::class);
+    }
+
+    public function users_in_projects () {
+        return $this->hasMany(users_in_projects::class);
     }
 }

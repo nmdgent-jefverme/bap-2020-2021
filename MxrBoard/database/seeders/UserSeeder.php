@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Jef Vermeire',
             'email' => 'jefvermeireown@gmail.com',
             'password' => Hash::make('Azerty123'),
-            'instruments' => 'Gitaar Piano'
+            'instruments' => 'Gitaar, Piano'
         ]);
     }
 }

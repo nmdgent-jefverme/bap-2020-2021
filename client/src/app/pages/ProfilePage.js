@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiEdit } from 'react-icons/fi';
 
@@ -10,30 +10,35 @@ import {
 import * as Routes from '../routes';
 
 import profileIcon from '../assets/profileIcon.png';
-import { useAuth } from '../services';
+import { useApi, useAuth } from '../services';
 
 const ProfilePage = () => {
   const { currentUser } = useAuth();
+  const { getProjectsByUserId } = useApi();
+  const [ userProjects, setUserProjects ] = useState()
 
-  const [ userProjects ] = useState([
-    {
-      title: 'Project 1',
-      slug: 'project-1'
+  const initFetch = useCallback(
+    () => {
+      const fetchItems = async () => {
+        let tempProjects = await getProjectsByUserId(currentUser.token, currentUser.id)
+        tempProjects = tempProjects.sort((a, b) => {
+          return(new Date(b.project.updated_at) - new Date(a.project.updated_at));
+        });
+        setUserProjects(tempProjects.slice(0, 3));
+      }
+      fetchItems();
     },
-    {
-      title: 'Project 2',
-      slug: 'project-2'
-    },
-    {
-      title: 'Project 3',
-      slug: 'project-3'
-    }
-  ])
+    [getProjectsByUserId, currentUser],
+  );
+  
+  useEffect(() => {
+		initFetch();
+  }, [initFetch]);
 
   return(
     <>
       <Navigation activePage='profile'/>
-      <PageTitle title='Mijn account'/>
+      <PageTitle title='Mijn account' hasButton={false} />
       <div className='content'>
         <Card extraClass='profilepage--profilecard'>
           <div className='profilepage--image-container'>
@@ -58,7 +63,7 @@ const ProfilePage = () => {
           <Card extraClass='profilepage--overviewcard'>
             <h3>Mijn projecten</h3>
             {
-              userProjects && userProjects.map((project, key) => <Link key={key} className='profilepage--overviewcard--link' to={Routes.PROJECT_PAGE.replace(':slug', project.slug)}>{project.title}</Link>)
+              userProjects && userProjects.map((project, key) => {return <Link key={key} className='profilepage--overviewcard--link' to={Routes.PROJECT_PAGE.replace(':id', project.project.id)}>{project.project.title}</Link>})
             }
             <Link className='profilepage--overviewcard--link' to={Routes.PROJECTS}>&gt;&gt; Al mijn projecten</Link>
           </Card>

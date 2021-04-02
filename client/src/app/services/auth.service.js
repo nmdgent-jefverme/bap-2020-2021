@@ -60,7 +60,6 @@ const AuthProvider = ({children}) => {
   }
 
   const updateUser = async (userId, token, name, email, instruments) => {
-    console.log(userId);
     const url = `${BASE_URL}/user/edit/${userId}`;
     const body = {
       name,

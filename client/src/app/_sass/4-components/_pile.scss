@@ -1,0 +1,13 @@
+.pile {
+  width: 30%;
+  &--card {
+    margin: $gutter-small;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &--icon {
+    font-size: 30px;
+  }
+}

@@ -1,5 +1,5 @@
 .button {
-  &--large, &--medium, &--small {
+  &--large, &--medium, &--small, &--add, &--large__secondary, &--medium__secondary, &--small__secondary, &--add__secondary {
     background-color: $color-primary;
     border: 3px solid $color-secondary;
     padding: $gutter-small;
@@ -9,9 +9,11 @@
     &:hover {
       cursor: pointer;
     }
+
+    &__secondary {background-color: $color-danger;}
   }
 
-  &--large {
+  &--large, &--large__secondary {
     width: 100%;
   }
   &--medium {
@@ -20,11 +22,70 @@
   &--small {
     width: 25%;
   }
+  &--add {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &:active {
     outline: none;
   }
 }
+
+.dropdown {
+  background-color: $color-primary;
+  border: 3px solid $color-secondary;
+  padding: $gutter-small;
+  font-size: 25px;
+  margin-bottom: $gutter-small;
+  width: 100%;
+}
+
+input[type="file"] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.fileupload {
+  &--label, &--label__error, &--label__draggin {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background: $color-primary;
+    border: 3px dotted $color-secondary;
+    border-radius: $border-radius-m;
+
+    &__draggin {
+      background-color: $color-primary-50;
+    }
+
+    &__error {background-color: $color-danger;}
+  }
+  &--container, &--container__error {
+    margin-top: $gutter-small;
+    display: inline-block;
+    position: relative;
+    height: 100px;
+    width: 90%;
+    padding: 0;
+  }
+}
+
 
 .textinput {
   &--large, &--medium, &--small {

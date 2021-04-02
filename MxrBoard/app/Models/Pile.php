@@ -4,17 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Idea_type extends Model
+class Pile extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'type_name'
+        'name', 'project_id'
     ];
 
-    public function project_idea () {
+    public function ideas () {
         return $this->hasMany(Project_idea::class);
+    }
+
+    public function color () {
+        return $this->belongsTo(Color::class);
     }
 }

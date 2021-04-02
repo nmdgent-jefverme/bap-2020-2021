@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersInProjectTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateUsersInProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_in_projects', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('project_id')->constrained();
+        Schema::create('colors', function (Blueprint $table) {
+            $table->id();
+            $table->string('color_value');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateUsersInProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_in_projects');
+        Schema::dropIfExists('colors');
     }
 }

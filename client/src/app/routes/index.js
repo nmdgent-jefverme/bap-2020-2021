@@ -9,4 +9,4 @@ export const PROFILE_EDIT = '/profile/:id';
 
 export const PROJECTS = '/projects';
 export const PROJECTS_CREATE = '/projects/create';
-export const PROJECT_PAGE = '/projects/:slug';
+export const PROJECT_PAGE = '/projects/:id';

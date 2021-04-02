@@ -15,10 +15,10 @@ class Project_idea extends Model
     ];
 
     public function idea_type () {
-        return $this->hasOne(Idea_type::class);
+        return $this->belongsTo(Idea_type::class);
     }
 
     public function project () {
-        return $this->BelongsTo(Project::class);
+        return $this->belongsTo(Pile::class);
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\api\v1\BandController;
+use App\Http\Controllers\api\v1\FileUploadController;
+use App\Http\Controllers\api\v1\IdeaController;
+use App\Http\Controllers\api\v1\IdeaTypeController;
 use App\Http\Controllers\api\v1\LoginController;
+use App\Http\Controllers\api\v1\ProjectController;
 use App\Http\Controllers\api\v1\UserController;
-use App\Models\Band;
-use App\Models\Project;
-use App\Models\Project_idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,17 +25,30 @@ Route::middleware('auth:api')->group( function () {
     Route::get('/bands', [BandController::class, 'index']);
     Route::prefix('/user')->group( function () {
         Route::post('/edit/{user}', [UserController::class, 'editUser']);
+        Route::get('/projects/{user}', [ ProjectController::class, 'byUserId' ]);
     });
+
+    Route::get('/projects', [ ProjectController::class, 'index' ]);
+    Route::post('/projects', [ ProjectController::class, 'createProject' ]);
+    Route::get('/projects/{project}', [ ProjectController::class, 'byId' ]);
+
+    Route::get('/idea_types', [ IdeaTypeController::class, 'index' ]);
+
+    Route::post('/projects/{project}/add_idea', [ IdeaController::class, 'addIdea' ]);
+
+    //fileupload
+    Route::post('/file_upload', [FileUploadController::class, 'upload']);
 });
 
-Route::get('/projects/{project}', function ( Project $project ) {
-    // return $id;
-    return $project->with('project_ideas')->get();
-});
 
 
 //User routes
 Route::prefix('/user')->group( function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/register', [LoginController::class, 'register']);
+});
+
+// Fallback route 404
+Route::fallback(function () {
+    return response()->json(['error' => 'Not Found!'], 404);
 });

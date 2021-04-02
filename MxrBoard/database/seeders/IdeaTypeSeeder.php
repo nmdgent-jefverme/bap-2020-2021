@@ -14,14 +14,18 @@ class IdeaTypeSeeder extends Seeder
      */
     public function run()
     {
+        // Idea_type::truncate();
         Idea_type::create([
-            'type_name' => 'song'
+            'type_name' => 'song',
+            'allowed_file_types' => 'mp3, mp4, wav, m4a'
         ]);
         Idea_type::create([
-            'type_name' => 'text'
+            'type_name' => 'text',
+            'allowed_file_types' => ''
         ]);
         Idea_type::create([
-            'type_name' => 'image'
+            'type_name' => 'image',
+            'allowed_file_types' => 'png, gif, jpeg, jpg, svg'
         ]);
     }
 }

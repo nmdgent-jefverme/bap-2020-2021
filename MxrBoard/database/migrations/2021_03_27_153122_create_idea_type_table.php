@@ -17,6 +17,7 @@ class CreateIdeaTypeTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('type_name');
+            $table->string('allowed_file_types');
         });
     }
 

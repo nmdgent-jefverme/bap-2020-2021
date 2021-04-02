@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectIdeaTable extends Migration
+class CreatePilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateProjectIdeaTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_ideas', function (Blueprint $table) {
+        Schema::create('piles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('pile_id')->constrained();
-            $table->foreignId('idea_type_id')->references('id')->on('idea_types');
-            $table->string('title');
-            $table->text('text');
+            $table->foreignId('project_id')->constrained();
+            $table->foreignId('color_id')->constrained();
+            $table->string('name');
         });
     }
 
@@ -30,6 +29,6 @@ class CreateProjectIdeaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_ideas');
+        Schema::dropIfExists('piles');
     }
 }
