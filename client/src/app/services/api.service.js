@@ -4,7 +4,7 @@ const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
-  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const BASE_URL = '';
 
   const getAllProjects = async (token) => {
     const url = `${BASE_URL}/projects`;
