@@ -49,8 +49,8 @@ Route::middleware('auth:api')->group( function () {
 
     //fileupload
     Route::post('/file_upload', [FileUploadController::class, 'upload']);
-});
 
+});
 
 
 //User routes
