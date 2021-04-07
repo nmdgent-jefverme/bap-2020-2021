@@ -10,7 +10,7 @@ class Pile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'project_id'
+        'name', 'project_id', 'color_id'
     ];
 
     public function ideas () {

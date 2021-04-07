@@ -16,16 +16,12 @@ class IdeaTypeSeeder extends Seeder
     {
         // Idea_type::truncate();
         Idea_type::create([
-            'type_name' => 'song',
-            'allowed_file_types' => 'mp3, mp4, wav, m4a'
+            'type_name' => 'file',
+            'allowed_file_types' => 'mp3, mp4, wav, m4a, png, gif, jpeg, jpg, svg, docx, pdf, txt'
         ]);
         Idea_type::create([
-            'type_name' => 'text',
+            'type_name' => 'link',
             'allowed_file_types' => ''
-        ]);
-        Idea_type::create([
-            'type_name' => 'image',
-            'allowed_file_types' => 'png, gif, jpeg, jpg, svg'
         ]);
     }
 }

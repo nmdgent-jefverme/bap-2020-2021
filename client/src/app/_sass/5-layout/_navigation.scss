@@ -41,7 +41,7 @@
 
     &__active {
       background-color: $color-primary;
-      border-radius: $border-radius-m;
+      border-radius: 25px;
       -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
       -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
@@ -53,7 +53,7 @@
 
     &-label {
       font-size: 35px;
-      margin-left: 20px;
+      margin: 0 20px;
     }
   }
 
@@ -118,7 +118,7 @@
 
 @media screen and (min-width: 450px) {
   .navigation, .navigation__large {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
@@ -154,29 +154,6 @@
     &--hambuger, &--cross {
       padding-top: $gutter-small;
       margin-bottom: 50px;
-    }
-  
-    &--icon-container, &--icon-container__active {
-      display: flex;
-      align-items: center;
-      margin-bottom: $gutter-large;
-  
-      &__active {
-        background-color: $color-primary;
-        border-radius: 25px;
-        -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-        -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-      }
-    }
-  
-    &--icon {
-      font-size: 50px;
-  
-      &-label {
-        font-size: 35px;
-        margin: 0 20px;
-      }
     }
   
     &--logo--container{

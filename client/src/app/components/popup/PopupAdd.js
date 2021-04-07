@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button } from '../forms';
-import { FiEdit } from 'react-icons/fi';
 
-const PopupEdit = ({title, className, onSubmit, children, buttonDisabled}) => {
+const PopupAdd = ({title, className, onSubmit, children, addButton}) => {
   const [ show, setShow ] = useState(false);
 
   const handleClose = () => setShow(false);;
@@ -16,20 +15,22 @@ const PopupEdit = ({title, className, onSubmit, children, buttonDisabled}) => {
 
   return(
     <>
-      <FiEdit onClick={handleShow} className={className}/>
+      <div onClick={handleShow}> 
+      {addButton}
+      </div>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title><h4>{`${title} bewerken`}</h4></Modal.Title>
+          <Modal.Title><h4>{title}</h4></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {children}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={submitFuncion} placeholder='Opslaan' disabled={buttonDisabled} />
+          <Button onClick={submitFuncion} placeholder='Opslaan' />
         </Modal.Footer>
       </Modal>
     </>
   )
 }
 
-export default PopupEdit;
+export default PopupAdd;

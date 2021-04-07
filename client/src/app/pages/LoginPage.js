@@ -39,13 +39,15 @@ const LoginPage = () => {
         <span className='loginpage--catchphrase'>Welcome to MxrBoard, the platform to collect all your inspiration and Ideas.</span>
       </div>
       <div className='loginpage--formsection'>
-        <h2 className='loginpage--title'>Login</h2>
-        <TextInput placeholder='Email' size='medium' onChange={(e) => setEmail(e.target.value)}/>
-        <TextInput type='password' placeholder='Wachtwoord' size='medium' onChange={(e) => setPassword(e.target.value)}/>
-        <Button placeholder='Login' size='medium' onClick={handleLogin}/>
-        { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
-        <div className='loginpage--seperator'/>
-        <span>Geen account? <Link className='loginpage--link' to={Routes.REGISTER}>Registreer hier</Link></span>
+        <div className='loginpage--form'>
+          <h2 className='loginpage--title'>Login</h2>
+          <TextInput placeholder='Email' size='large' onChange={(e) => setEmail(e.target.value)}/>
+          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(e) => setPassword(e.target.value)}/>
+          <Button placeholder='Login' size='large' onClick={handleLogin}/>
+          { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
+          <div className='loginpage--seperator'/>
+          <span>Geen account? <Link className='loginpage--link' to={Routes.REGISTER}>Registreer hier</Link></span>
+        </div>
       </div>
     </div>
   )

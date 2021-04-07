@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Errors = ({ errors = [], message = '' }) => {
+const Errors = ({ errors = [], message = false }) => {
   return (
     <div className='errors'>
-      <p>{message}</p>
+      {
+        message && <p>{message}</p>
+      }
       <ul>
         {
           errors.map((error, key) => 

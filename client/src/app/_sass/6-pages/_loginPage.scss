@@ -16,6 +16,11 @@
     background-color: white;
   }
 
+  &--form {
+    width: 80%;
+    text-align: center;
+  }
+
   &--logo {
     width: 30%;
   }
@@ -28,9 +33,9 @@
   }
 
   &--seperator {
-    margin-top: $gutter-medium;
+    margin: $gutter-medium 0;
     border-bottom: 3px solid $color-secondary;
-    width: 60%;
+    width: 100%;
   }
 
   &--title {

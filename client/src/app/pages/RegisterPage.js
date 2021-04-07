@@ -39,13 +39,15 @@ const RegisterPage = () => {
         <span className='loginpage--catchphrase'>Welcome to MxrBoard, the platform to collect all your inspiration and Ideas.</span>
       </div>
       <div className='loginpage--formsection'>
-        <h2 className='loginpage--title'>Registeren</h2>
-        <TextInput placeholder='Naam' size='medium' onChange={(ev) => setName(ev.target.value)} />
-        <TextInput placeholder='Email' size='medium' onChange={(ev) => setEmail(ev.target.value)} />
-        <TextInput type='password' placeholder='Wachtwoord' size='medium' onChange={(ev) => setPassword(ev.target.value)}  />
-        <TextInput type='password' placeholder='Wachtwoord herhalen' size='medium' onChange={(ev) => setPasswordRepeat(ev.target.value)} />
-        <Button placeholder='Registreren' size='medium' onClick={handleRegister}/>
-        { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
+        <div className='loginpage--form'>
+          <h2 className='loginpage--title'>Registeren</h2>
+          <TextInput placeholder='Naam' size='large' onChange={(ev) => setName(ev.target.value)} />
+          <TextInput placeholder='Email' size='large' onChange={(ev) => setEmail(ev.target.value)} />
+          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(ev) => setPassword(ev.target.value)}  />
+          <TextInput type='password' placeholder='Wachtwoord herhalen' size='large' onChange={(ev) => setPasswordRepeat(ev.target.value)} />
+          <Button placeholder='Registreren' size='large' onClick={handleRegister}/>
+          { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
+        </div>
       </div>
     </div>
   )

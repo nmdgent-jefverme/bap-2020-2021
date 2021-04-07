@@ -1,5 +1,4 @@
 import { default as React, useContext, createContext, } from 'react';
-import axios from 'axios';
 
 const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
@@ -104,6 +103,27 @@ const ApiProvider = ({children}) => {
     return project;
   }
 
+  const updateProject = async (token, id, title) => {
+    const url = `${BASE_URL}/projects/${id}`;
+    const body = {
+      title
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const project = await response.json();
+    return project;
+  }
+
   const uploadFile = async (file, token) => {
     const url = `${BASE_URL}/file_upload`;
     const myHeaders = {
@@ -137,14 +157,145 @@ const ApiProvider = ({children}) => {
     console.log(result); */
   }
 
+  const getAllColors = async (token) => {
+    const url = `${BASE_URL}/colors`;
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const projects = await response.json();
+    return projects;
+  }
+
+  const addPile = async (token, project_id, color_id, name) => {
+    const url = `${BASE_URL}/piles/add_pile`;
+    const body = {
+      name,
+      color_id,
+      project_id
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const pile = await response.json();
+    return pile.data;
+  }
+
+  const updatePile = async (token, id, name, color_id) => {
+    const url = `${BASE_URL}/pile/${id}`;
+    const body = {
+      name,
+      color_id,
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const pile = await response.json();
+    return pile;
+  }
+
+  const addIdea = async (token, project_id, title, link, pile_id) => {
+    const url = `${BASE_URL}/projects/${project_id}/add_idea`;
+    const body = {
+      link,
+      pile_id,
+      title
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    console.log(options);
+    const response = await fetch(`${url}`, options);
+    const idea = await response.json();
+    return idea;
+  }
+
+  const removeIdea = async (token, id) => {
+    const url = `${BASE_URL}/idea/${id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    return result;
+  }
+
+  const getMetaData = async (url) => {
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'mode': 'no-cors'
+    }
+    const options = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    try {
+      const response = await fetch(url, options);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    // return result;
+  }
+
   return (
     <ApiContext.Provider value={{
+      addIdea,
+      addPile,
       createProject,
+      getAllColors,
       getAllProjects,
       getIdeaTypes,
+      getMetaData,
       getProjectById,
       getProjectsByUserId,
-      uploadFile
+      removeIdea,
+      uploadFile,
+      updatePile,
+      updateProject
     }}>
       {children}
     </ApiContext.Provider>

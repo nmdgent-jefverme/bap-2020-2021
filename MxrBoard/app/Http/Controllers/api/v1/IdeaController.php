@@ -11,23 +11,27 @@ use Illuminate\Support\Facades\Validator;
 class IdeaController extends BaseController
 {
 
-    public function addIdea( Project $project, Request $r ) {
+    public function addIdea( Request $r ) {
         $validator = Validator::make($r->all(), [
-            'idea_type_id' => 'required|exists:App\Models\Idea_type,id',
-            'title' => 'required',
+            'link' => 'required',
+            'pile_id' => 'required|exists:App\Models\Pile,id',
+            'title' => 'required'
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors(), 400);
         }
         $newIdea = new Project_idea([
-            'project_id' => $project->id,
-            'idea_type_id' => $r->idea_type_id,
-            'title' => $r->title,
-            'filePath' => 'lorem ipsum',
-            'text' => 'lorem ipsum',
+            'pile_id' => $r->pile_id,
+            'link' => $r->link,
+            'title' => $r->title
         ]);
         $newIdea->save();
-        return $newIdea;
+        return $this->sendResponse($newIdea, 'Idea created successfully.');
+    }
+
+    public function remove ($id) {
+        Project_idea::find($id)->delete();
+        return $this->sendResponse($id, 'Idea removed successfully');
     }
 }

@@ -19,10 +19,9 @@ class ProjectIdeaSeeder extends Seeder
         $faker = \Faker\Factory::create();
         for ($i=0; $i < 50; $i++) {
             Project_idea::create([
-                'title' => $faker->word(),
                 'pile_id' => Pile::all()->random()->id,
-                'idea_type_id' => Idea_type::all()->random()->id,
-                'text' => $faker->word()
+                'link' => 'https://www.youtube.com/watch?v=7LSbDdZLr1w',
+                'title' => $faker->word()
             ]);
         }
     }

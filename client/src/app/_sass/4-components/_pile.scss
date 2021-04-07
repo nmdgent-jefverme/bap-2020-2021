@@ -1,14 +1,51 @@
-.pile {
-  width: 33%;
-  &--card {
+.pile, .pile__dragging {
+  // width: 33%;
+  margin: 20px 10px;
+  &--card, &--card__example {
     margin: $gutter-small;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    
+    &__example {
+      > span {
+        padding: calc(#{$gutter-small} - 3px);
+      }
+      border: 3px dotted $color-secondary;
+    }
+
+    &--header {
+      margin-bottom: $gutter-small;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
   &--icon {
     font-size: 30px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &--actions {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__dragging {
+    border: 3px dotted $color-secondary;
+    border-radius: $border-radius;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+    > .card {
+      margin: calc(#{$gutter-small} - 3px);
+    }
   }
 }
 

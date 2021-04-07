@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.modal-title h4 {
+  text-transform: capitalize;
+}
+
 a {
   text-decoration: none;
   color: $color-secondary;

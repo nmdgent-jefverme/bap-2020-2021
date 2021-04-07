@@ -56,4 +56,17 @@ class ProjectController extends BaseController
         $usersInProject->save();
         return $this->sendResponse($project, 'Project created successfully');
     }
+
+    public function updateProject ( Project $project, Request $r) {
+        $validator = Validator::make($r->all(), [
+            'title' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+        $project->title = $r->title;
+        $project->save();
+        return $this->sendResponse($project, 'Project updated successfully');
+    }
 }

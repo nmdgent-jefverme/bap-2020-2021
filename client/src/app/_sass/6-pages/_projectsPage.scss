@@ -1,5 +1,29 @@
 .projectspage {
   &--projectcard {
     margin-bottom: $gutter-medium;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &--text {
+      font-size: 15px;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &--icon {
+      font-size: 25px;
+      margin-left: $gutter-small;
+    }
+  }
+}
+
+@media screen and (max-width: 449px) {
+  .projectspage {
+    &--projectcard {
+     flex-direction: column;
+    }
   }
 }

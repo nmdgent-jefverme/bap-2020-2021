@@ -6,7 +6,7 @@ const FileUpload = ({ allowedFileTypes = '' }) => {
   const [ extenstionArray ] = useState(allowedFileTypes.split(','));
   const [ error, setError ] = useState(false);
   const [ displayText, setDisplayText ] = useState('Sleep een bestand of klik hier!');
-  const [ file, setFile ] = useState();
+  // const [ file, setFile ] = useState();
   const { uploadFile } = useApi();
   const { currentUser } = useAuth();
 

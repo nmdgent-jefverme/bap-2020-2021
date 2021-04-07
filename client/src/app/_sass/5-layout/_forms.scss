@@ -1,35 +1,58 @@
 .button {
   &--large, &--medium, &--small, &--add, &--large__secondary, &--medium__secondary, &--small__secondary, &--add__secondary {
     background-color: $color-primary;
-    border: 3px solid $color-secondary;
+    border-radius: $border-radius;
+    border: none;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 500;
     padding: $gutter-small;
     font-size: 25px;
     margin-bottom: $gutter-small;
 
     &:hover {
       cursor: pointer;
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
     }
 
-    &__secondary {background-color: $color-danger;}
+    &__secondary {background-color: $color-2;}
   }
 
   &--large, &--large__secondary {
     width: 100%;
   }
-  &--medium {
-    width: 60%;
+  &--medium, &--medium__secondary {
+    width: 30%;
+    margin-bottom: 0;
+    font-size: 15px;
   }
   &--small {
     width: 25%;
   }
   &--add {
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
     text-align: center;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+    z-index: 10;
+    background-color: $color-add-button;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+    &:hover {
+      background: linear-gradient(170deg, $color-add-button, $color-primary);
+    }
   }
 
   &:active {
@@ -38,12 +61,17 @@
 }
 
 .dropdown {
-  background-color: $color-primary;
-  border: 3px solid $color-secondary;
+  background-color: $color-white;
+  border: 3px solid $color-primary;
   padding: $gutter-small;
   font-size: 25px;
   margin-bottom: $gutter-small;
+  border-radius: $border-radius;
   width: 100%;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 input[type="file"] {
@@ -88,9 +116,12 @@ input[type="file"] {
 
 
 .textinput {
+  width: 100%;
+  position: relative;
   &--large, &--medium, &--small {
     background-color: white;
-    border: 3px solid $color-secondary;
+    border: 3px solid $color-primary;
+    border-radius: $border-radius;
     padding: $gutter-small;
     font-size: 25px;
     margin-bottom: $gutter-small;
@@ -99,10 +130,20 @@ input[type="file"] {
     width: 100%;
   }
   &--medium {
-    width: 60%;
+    width: 90%;
+    font-size: 15px;
+    margin-bottom: 0;
+    padding: $gutter-xsmall;
   }
   &--small {
     width: 25%;
+  }
+
+  &--icon {
+    position: absolute;
+    right: 25px;
+    font-size: 30px;
+    top: 12px;
   }
 
   &:focus {

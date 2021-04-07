@@ -16,10 +16,10 @@ class CreateProjectIdeaTable extends Migration
         Schema::create('project_ideas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignId('pile_id')->constrained();
-            $table->foreignId('idea_type_id')->references('id')->on('idea_types');
-            $table->string('title');
-            $table->text('text');
+            $table->text('link');
+            $table->text('title');
         });
     }
 
