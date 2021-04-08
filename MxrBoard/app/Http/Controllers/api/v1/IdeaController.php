@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pile;
 use App\Models\Project;
 use App\Models\Project_idea;
 use Illuminate\Http\Request;
@@ -28,6 +29,26 @@ class IdeaController extends BaseController
         ]);
         $newIdea->save();
         return $this->sendResponse($newIdea, 'Idea created successfully.');
+    }
+
+    public function updateIdea( $id, Request $r ) {
+        $validator = Validator::make($r->all(), [
+            'link' => 'required',
+            'title' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+        $idea = Project_idea::find($id);
+        $pile = Pile::find($idea->pile_id);
+        $pile->touch();
+        $project = Project::find($pile->project_id);
+        $project->touch();
+        $idea->title = $r->title;
+        $idea->link = $r->link;
+        $idea->save();
+        return $this->sendResponse($idea, 'Idea updated successfully.');
     }
 
     public function remove ($id) {

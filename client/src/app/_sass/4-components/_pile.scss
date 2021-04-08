@@ -22,9 +22,27 @@
       justify-content: space-between;
       align-items: center;
     }
+
+    &--play {
+      font-size: 60px;
+      border-radius: 50%;
+      background-color: $color-white;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    a {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
   }
   &--icon {
     font-size: 30px;
+    margin-left: $gutter-small;
 
     &:hover {
       cursor: pointer;

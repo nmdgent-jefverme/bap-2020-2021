@@ -11,8 +11,7 @@ import {
 } from '../components';
 import { useApi, useAuth } from '../services';
 import { CgRename } from 'react-icons/cg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry";
+import Masonry from 'react-masonry-css';
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -27,7 +26,6 @@ const ProjectPage = () => {
   const initFetch = useCallback(
     () => {
       const fetchItems = async () => {
-        console.log('fetching data');
         let temp = await getProjectById(currentUser.token, id);
         console.log(temp.data.piles);
         setPiles(temp.data.piles);
@@ -50,6 +48,13 @@ const ProjectPage = () => {
     setPiles(temp.data.piles);
   }
 
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1,
+    500: 1
+  };
+
   return(
     <>
       <Navigation activePage='projects'/>
@@ -61,15 +66,17 @@ const ProjectPage = () => {
             <span>Kies een kleur:</span>
             <ColorPicker setSelectedColor={setSelectedColor} colors={colors} activeColor={selectedColor} />
           </PopupAdd>
-          <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}} >
-            <Masonry>
-              {
-                !!piles && piles.map((pile, key) => 
-                  <Pile key={key} id={pile.id} color={pile.color_id} title={pile.name} ideas={pile.ideas} fetchData={initFetch} project_id={id} />
-                )
-              }
-            </Masonry>
-          </ResponsiveMasonry>
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {
+              !!piles && piles.map((pile, key) => 
+                <Pile key={key} id={pile.id} color={pile.color_id} title={pile.name} ideas={pile.ideas} fetchData={initFetch} project_id={id} />
+              )
+            }
+          </Masonry>
         </div>
       </div>
     </>

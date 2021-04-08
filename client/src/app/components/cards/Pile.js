@@ -3,17 +3,20 @@ import { ColorPicker, TextInput } from '../forms';
 import { PopupEdit } from '../popup';
 import Card from './Card';
 import { CgRename } from 'react-icons/cg';
+import { FiPauseCircle } from 'react-icons/fi';
+import { GrCirclePlay } from 'react-icons/gr';
 import { useApi, useAuth } from '../../services';
 import { IdeaCard } from '.';
 import AddIdeaCard from './AddIdeaCard';
 
-const Pile = ({id, title, color = 1, ideas, piles, setPiles, project_id, fetchData}) => {
+const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
   const [ colors, setColors ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(color);
   const [ newTitle, setNewTitle ] = useState(title);
   const [ dragging, setDragging ] = useState(false);
   const { getAllColors, updatePile } = useApi();
   const { currentUser } = useAuth();
+  const [ playAll, setPlayAll ] = useState(false);
 
   const initFetch = useCallback(() => {
     const fetchItems = async () => {
@@ -37,6 +40,12 @@ const Pile = ({id, title, color = 1, ideas, piles, setPiles, project_id, fetchDa
       <Card extraClass={`pile--card color_${color}`} onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}>
         <h3>{title}</h3>
         <div className='pile--actions'>
+          {
+            playAll ?
+            <FiPauseCircle className='pile--icon' onClick={() => setPlayAll(false)}  /> 
+            :
+            <GrCirclePlay className='pile--icon' onClick={() => setPlayAll(true)} /> 
+          }
           <PopupEdit className='pile--icon' title={title} onSubmit={handleUpdate} >
             <TextInput placeholder='Naam stapel' defaultValue={title} icon={<CgRename />} onChange={(ev) => setNewTitle(ev.target.value)} />
             <p>Kleur van de stapel:</p>
@@ -56,6 +65,7 @@ const Pile = ({id, title, color = 1, ideas, piles, setPiles, project_id, fetchDa
                   color={color}
                   idea={idea}
                   fetchData={fetchData}
+                  playAll={playAll}
                 />
               )
             }

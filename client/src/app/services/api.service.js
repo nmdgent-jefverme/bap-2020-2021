@@ -238,7 +238,28 @@ const ApiProvider = ({children}) => {
       body: JSON.stringify(body),
       redirect: 'follow'
     };
-    console.log(options);
+    const response = await fetch(`${url}`, options);
+    const idea = await response.json();
+    return idea;
+  }
+
+  const updateIdea = async (token, id, title, link) => {
+    const url = `${BASE_URL}/idea/${id}`;
+    const body = {
+      link,
+      title
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
     const response = await fetch(`${url}`, options);
     const idea = await response.json();
     return idea;
@@ -294,6 +315,7 @@ const ApiProvider = ({children}) => {
       getProjectsByUserId,
       removeIdea,
       uploadFile,
+      updateIdea,
       updatePile,
       updateProject
     }}>

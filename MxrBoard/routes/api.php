@@ -46,12 +46,12 @@ Route::middleware('auth:api')->group( function () {
     Route::post('/projects/{project}/add_idea', [ IdeaController::class, 'addIdea' ]);
 
     Route::delete('/idea/{id}', [IdeaController::class, 'remove'] );
+    Route::post('/idea/{id}', [IdeaController::class, 'updateIdea'] );
 
     //fileupload
     Route::post('/file_upload', [FileUploadController::class, 'upload']);
 
 });
-
 
 //User routes
 Route::prefix('/user')->group( function () {
