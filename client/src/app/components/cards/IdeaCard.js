@@ -13,8 +13,8 @@ import {
   validateSpotifyUrl
 } from '../../utilities';
 
-const IdeaCard = ({color, idea, fetchData, playAll}) => {
-  const [ isPlaying, setIsPlaying ] = useState(playAll);
+const IdeaCard = ({color, idea, fetchData}) => {
+  const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
   const [ link, setLink ] = useState(idea.link);

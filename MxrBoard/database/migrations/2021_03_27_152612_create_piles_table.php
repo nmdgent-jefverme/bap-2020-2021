@@ -16,6 +16,7 @@ class CreatePilesTable extends Migration
         Schema::create('piles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignId('project_id')->constrained();
             $table->foreignId('color_id')->constrained();
             $table->string('name');

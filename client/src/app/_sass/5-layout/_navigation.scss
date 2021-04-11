@@ -118,6 +118,7 @@
 
 @media screen and (min-width: 450px) {
   .navigation, .navigation__large {
+    border-radius: 0 $border-radius $border-radius 0;
     position: fixed;
     left: 0;
     top: 0;

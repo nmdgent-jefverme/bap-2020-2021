@@ -27,7 +27,6 @@ const ProjectPage = () => {
     () => {
       const fetchItems = async () => {
         let temp = await getProjectById(currentUser.token, id);
-        console.log(temp.data.piles);
         setPiles(temp.data.piles);
         setProjectData(temp.data);
         const tempColors = await getAllColors(currentUser.token);
@@ -72,9 +71,9 @@ const ProjectPage = () => {
             columnClassName="my-masonry-grid_column"
           >
             {
-              !!piles && piles.map((pile, key) => 
+              !!piles && piles.length > 0 ? piles.map((pile, key) => 
                 <Pile key={key} id={pile.id} color={pile.color_id} title={pile.name} ideas={pile.ideas} fetchData={initFetch} project_id={id} />
-              )
+              ) : <span>Geen ideeën voor dit project.</span>
             }
           </Masonry>
         </div>
