@@ -57,10 +57,22 @@ const ProjectPage = () => {
   return(
     <>
       <Navigation activePage='projects'/>
-      { !!projectData && <PageTitle title={projectData.title} />}
+      { 
+        !!projectData && 
+        <PageTitle 
+          title={projectData.title} 
+          info={true} 
+          author={projectData.author.name} 
+          date={new Date(projectData.updated_at).toLocaleDateString()} 
+        />
+      }
       <div className='content'>
         <div className='projectpage' onDragEnter={() => console.log('dragging')} onDragEnd={(ev) => console.log(ev)}>
-          <PopupAdd title='Stapel toevoegen' onSubmit={handleAdd} addButton={<Button placeholder='+' size='add'/>} >
+          <PopupAdd 
+            title='Stapel toevoegen' 
+            onSubmit={handleAdd} 
+            addButton={<Button placeholder='+' size='add'/>} 
+          >
             <TextInput onChange={(ev) => setTitle(ev.target.value)} icon={<CgRename />} placeholder='Titel stapel' />
             <span>Kies een kleur:</span>
             <ColorPicker setSelectedColor={setSelectedColor} colors={colors} activeColor={selectedColor} />
@@ -72,7 +84,15 @@ const ProjectPage = () => {
           >
             {
               !!piles && piles.length > 0 ? piles.map((pile, key) => 
-                <Pile key={key} id={pile.id} color={pile.color_id} title={pile.name} ideas={pile.ideas} fetchData={initFetch} project_id={id} />
+                <Pile 
+                  key={key} 
+                  id={pile.id} 
+                  color={pile.color_id} 
+                  title={pile.name} 
+                  ideas={pile.ideas} 
+                  fetchData={initFetch} 
+                  project_id={id} 
+                />
               ) : <span>Geen ideeën voor dit project.</span>
             }
           </Masonry>

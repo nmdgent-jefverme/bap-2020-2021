@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Pile;
 use App\Models\Project;
+use App\Models\Project_idea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,5 +50,11 @@ class PileController extends BaseController
         Project::find($pile->project_id)->touch();
 
         return $this->sendResponse($pile, 'Pile updated successfully');
+    }
+
+    public function delete ( Pile $pile ) {
+        Project_idea::where('pile_id', $pile->id)->forceDelete();
+        $pile->delete();
+        return $this->sendResponse([], 'Pile deleted successfully.');
     }
 }

@@ -17,7 +17,7 @@ import { useApi, useAuth } from '../services';
 
 const ProjectsPage = () => {
   const [ projects, setProjects ] = useState();
-  const [ title, setTitle ] = useState('');
+  const [ title, setTitle ] = useState(false);
   const [ errors, setErrors ] = useState();
   const [ displayError, setDisplayError ] = useState(false);
   const { getProjectsByUserId, updateProject } = useApi();
@@ -45,12 +45,14 @@ const ProjectsPage = () => {
   }
 
   useEffect(() => {
-    if(title.trim() === '') {
-      setDisplayError(true);
-      setErrors(['The title field is required.'])
-    } else {
-      setDisplayError(false);
-      setErrors(null)
+    if(title.length >= 0) {
+      if(title.trim() === '') {
+        setDisplayError(true);
+        setErrors(['The title field is required.'])
+      } else {
+        setDisplayError(false);
+        setErrors(null)
+      }
     }
   }, [ title ])
 

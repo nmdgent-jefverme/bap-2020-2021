@@ -13,7 +13,7 @@ class ProjectController extends BaseController
 {
     public function index() {
         try {
-            return response(Project::with('piles.color')->with('piles.ideas.idea_type')->get());
+            return response(Project::with('piles.color')->with('piles.ideas.idea_type')->with('author')->get());
         } catch (\Throwable $th) {
             return $this->sendError('Error retreiving projects', $th);
         }
@@ -21,7 +21,7 @@ class ProjectController extends BaseController
 
     public function byId(Project $project) {
         try {
-            return $this->sendResponse(Project::with('piles.color')->with('piles.ideas.idea_type')->get()->find($project), 'Project with id: ' . $project->id . ' received succesfully');
+            return $this->sendResponse(Project::with('piles.color')->with('piles.ideas.idea_type')->with('author')->get()->find($project), 'Project with id: ' . $project->id . ' received succesfully');
         } catch (\Throwable $th) {
             return $this->sendError('Error retreiving projects', $th);
         }
@@ -45,7 +45,8 @@ class ProjectController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors(), 400);
         }
         $project = new Project([
-            'title' => $r->title
+            'title' => $r->title,
+            'author_id' => $r->user_id
         ]);
         $project->save();
         $usersInProject = new Users_in_project([
@@ -68,5 +69,14 @@ class ProjectController extends BaseController
         $project->title = $r->title;
         $project->save();
         return $this->sendResponse($project, 'Project updated successfully');
+    }
+
+    public function delete ( Project $project ) {
+        $project->delete();
+        Users_in_project::where([
+            ['project_id', $project->id],
+            ['user_id', $project->author_id],
+        ])->delete();
+        return $this->sendResponse([], 'Project deleted successfully');
     }
 }

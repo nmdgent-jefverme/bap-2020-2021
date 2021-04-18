@@ -16,7 +16,9 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->string('title');
+            $table->foreignId('author_id')->references('id')->on('users');
         });
     }
 

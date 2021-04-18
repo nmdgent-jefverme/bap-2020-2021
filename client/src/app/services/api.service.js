@@ -6,6 +6,9 @@ const useApi = () => useContext(ApiContext);
 const ApiProvider = ({children}) => {
   const BASE_URL = '';
 
+  /**
+   * Project functions
+  */
   const getAllProjects = async (token) => {
     const url = `${BASE_URL}/projects`;
 
@@ -63,24 +66,6 @@ const ApiProvider = ({children}) => {
     return groupedProjects;
   }
 
-  const getIdeaTypes = async (token) => {
-    const url = `${BASE_URL}/idea_types`;
-
-    const myHeaders = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }
-    const options = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    const response = await fetch(`${url}`, options);
-    const types = await response.json();
-    return types.data;
-  }
-
   const createProject = async (token, user_id, title) => {
     const url = `${BASE_URL}/projects`;
     const body = {
@@ -124,57 +109,9 @@ const ApiProvider = ({children}) => {
     return project;
   }
 
-  const uploadFile = async (file, token) => {
-    const url = `${BASE_URL}/file_upload`;
-    const myHeaders = {
-      'Authorization': 'Bearer ' + token
-    }
-
-    const body = {
-      'file': file,
-      'terst': 'test'
-    }
-
-    const options = {
-      method: 'POST',
-      headers: myHeaders,
-      body: body,
-      redirect: 'follow',
-    };
-    console.log(options);
-    const response = await fetch(url, options);
-    const upLoadedFile = await response.json();
-    console.log(upLoadedFile)
-    return upLoadedFile;
-    /* const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    };
-    const bodyParameters = {
-      file: file
-    };
-    console.log(bodyParameters);
-    const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);
-    console.log(result); */
-  }
-
-  const getAllColors = async (token) => {
-    const url = `${BASE_URL}/colors`;
-
-    const myHeaders = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }
-    const options = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    const response = await fetch(`${url}`, options);
-    const projects = await response.json();
-    return projects;
-  }
-
+  /**
+   * Pile functions
+  */
   const addPile = async (token, project_id, color_id, name) => {
     const url = `${BASE_URL}/piles/add_pile`;
     const body = {
@@ -220,6 +157,26 @@ const ApiProvider = ({children}) => {
     return pile;
   }
 
+  const removePile = async (token, id) => {
+    const url = `${BASE_URL}/pile/${id}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    return result;
+  }
+
+  /**
+   * Idea functions
+  */
   const addIdea = async (token, project_id, title, link, pile_id) => {
     const url = `${BASE_URL}/projects/${project_id}/add_idea`;
     const body = {
@@ -282,24 +239,76 @@ const ApiProvider = ({children}) => {
     return result;
   }
 
-  const getMetaData = async (url) => {
+  /**
+   * Random functions
+  */
+  const getIdeaTypes = async (token) => {
+    const url = `${BASE_URL}/idea_types`;
+
     const myHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'mode': 'no-cors'
+      'Authorization': 'Bearer ' + token
     }
     const options = {
       method: 'GET',
       headers: myHeaders,
       redirect: 'follow'
     };
-    try {
-      const response = await fetch(url, options);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const response = await fetch(`${url}`, options);
+    const types = await response.json();
+    return types.data;
+  }
+  
+  const uploadFile = async (file, token) => {
+    const url = `${BASE_URL}/file_upload`;
+    const myHeaders = {
+      'Authorization': 'Bearer ' + token
     }
-    // return result;
+
+    const body = {
+      'file': file,
+      'terst': 'test'
+    }
+
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: body,
+      redirect: 'follow',
+    };
+    console.log(options);
+    const response = await fetch(url, options);
+    const upLoadedFile = await response.json();
+    console.log(upLoadedFile)
+    return upLoadedFile;
+    /* const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+    const bodyParameters = {
+      file: file
+    };
+    console.log(bodyParameters);
+    const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);
+    console.log(result); */
+  }
+  
+  const getAllColors = async (token) => {
+    const url = `${BASE_URL}/colors`;
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const projects = await response.json();
+    return projects;
   }
 
   return (
@@ -310,10 +319,10 @@ const ApiProvider = ({children}) => {
       getAllColors,
       getAllProjects,
       getIdeaTypes,
-      getMetaData,
       getProjectById,
       getProjectsByUserId,
       removeIdea,
+      removePile,
       uploadFile,
       updateIdea,
       updatePile,

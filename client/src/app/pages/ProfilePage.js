@@ -20,7 +20,7 @@ const ProfilePage = () => {
   const initFetch = useCallback(
     () => {
       const fetchItems = async () => {
-        let tempProjects = await getProjectsByUserId(currentUser.token, currentUser.id)
+        let tempProjects = await getProjectsByUserId(currentUser.token, currentUser.id);
         tempProjects = tempProjects.sort((a, b) => {
           return(new Date(b.project.updated_at) - new Date(a.project.updated_at));
         });

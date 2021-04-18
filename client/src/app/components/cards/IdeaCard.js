@@ -20,7 +20,7 @@ const IdeaCard = ({color, idea, fetchData}) => {
   const [ link, setLink ] = useState(idea.link);
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
-  const size = {
+  const playerSize = {
     width: '100%',
     height: 80,
   };
@@ -41,11 +41,11 @@ const IdeaCard = ({color, idea, fetchData}) => {
         <div className='pile--card--header'>
           <p>{idea.title}</p>
           <div>
+            <PopupDelete title={`Idee verwijderen?`} onSubmit={() => handleRemove(idea.id)} />
             <PopupEdit title='Idee' onSubmit={handleUpdate} >
               <TextInput defaultValue={title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
               <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
             </PopupEdit>
-            <PopupDelete title={`Idee verwijderen?`} onSubmit={() => handleRemove(idea.id)} />
           </div>
         </div>
         {
@@ -64,7 +64,7 @@ const IdeaCard = ({color, idea, fetchData}) => {
           validateSpotifyUrl(idea.link) && 
           <SpotifyPlayer
             uri={idea.link}
-            size={size}
+            size={playerSize}
           />
         }
         {

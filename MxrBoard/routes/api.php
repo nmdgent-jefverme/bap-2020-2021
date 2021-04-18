@@ -36,12 +36,17 @@ Route::middleware('auth:api')->group( function () {
     Route::post('/projects', [ ProjectController::class, 'createProject' ]);
     Route::get('/projects/{project}', [ ProjectController::class, 'byId' ]);
     Route::post('/projects/{project}', [ ProjectController::class, 'updateProject' ]);
+    Route::delete('projects/{project}', [ ProjectController::class, 'delete' ]);
 
     Route::get('/idea_types', [ IdeaTypeController::class, 'index' ]);
     Route::get('/colors', [ ColorsController::class, 'index' ]);
 
+    /**
+     * Pile routes
+     */
     Route::post('/pile/{pile}', [ PileController::class, 'update' ]);
     Route::post('/piles/add_pile', [ PileController::class, 'addPile' ]);
+    Route::delete('/pile/{pile}', [ PileController::class, 'delete' ]);
 
     Route::post('/projects/{project}/add_idea', [ IdeaController::class, 'addIdea' ]);
 

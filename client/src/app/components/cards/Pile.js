@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ColorPicker, TextInput } from '../forms';
-import { PopupEdit } from '../popup';
+import { PopupDelete, PopupEdit } from '../popup';
 import Card from './Card';
 import { CgRename } from 'react-icons/cg';
-import { GrCirclePlay } from 'react-icons/gr';
 import { useApi, useAuth } from '../../services';
 import { IdeaCard } from '.';
 import AddIdeaCard from './AddIdeaCard';
@@ -13,7 +12,7 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
   const [ selectedColor, setSelectedColor ] = useState(color);
   const [ newTitle, setNewTitle ] = useState(title);
   const [ dragging, setDragging ] = useState(false);
-  const { getAllColors, updatePile } = useApi();
+  const { getAllColors, updatePile, removePile } = useApi();
   const { currentUser } = useAuth();
 
   const initFetch = useCallback(() => {
@@ -33,12 +32,20 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
     fetchData();
   }
 
+  const handleDelete = async () => {
+    await removePile(currentUser.token, id);
+    fetchData();
+  }
+
   return(
     <div className={`pile${dragging ? '__dragging' : ''}`} >
       <Card extraClass={`pile--card color_${color}`} onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}>
         <h3>{title}</h3>
         <div className='pile--actions'>
-          <GrCirclePlay className='pile--icon'/>
+          <PopupDelete 
+            title='Stapel verwijderen?'
+            onSubmit={handleDelete}
+          />
           <PopupEdit className='pile--icon' title={title} onSubmit={handleUpdate} >
             <TextInput placeholder='Naam stapel' defaultValue={title} icon={<CgRename />} onChange={(ev) => setNewTitle(ev.target.value)} />
             <p>Kleur van de stapel:</p>
@@ -48,39 +55,39 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
           </PopupEdit>
         </div>
       </Card>
-      {
-        ideas.length > 0 ? 
-          <>
-            {
-              ideas.map((idea, key) =>
-                <IdeaCard 
-                  key={key}
-                  color={color}
-                  idea={idea}
-                  fetchData={fetchData}
-                />
-              )
-            }
-            <AddIdeaCard 
-              color={color}
-              project_id={project_id}
-              pile_id={id}
-              fetchData={fetchData}
-            />
-          </>
-        :
-          <>
-            <Card extraClass={`pile--card__example color_${color}`}>
-              <span>Nog geen ideeën</span>
-            </Card>
-            <AddIdeaCard 
-              color={color}
-              project_id={project_id}
-              pile_id={id}
-              fetchData={fetchData}
-            />
-          </>
-      }
+        {
+          ideas.length > 0 ? 
+            <>
+              {
+                ideas.map((idea, key) =>
+                  <IdeaCard 
+                    key={key}
+                    color={color}
+                    idea={idea}
+                    fetchData={fetchData}
+                  />
+                )
+              }
+              <AddIdeaCard 
+                color={color}
+                project_id={project_id}
+                pile_id={id}
+                fetchData={fetchData}
+              />
+            </>
+          :
+            <>
+              <Card extraClass={`pile--card__example color_${color}`}>
+                <span>Nog geen ideeën</span>
+              </Card>
+              <AddIdeaCard 
+                color={color}
+                project_id={project_id}
+                pile_id={id}
+                fetchData={fetchData}
+              />
+            </>
+        }
     </div>
   )
 }
