@@ -24,6 +24,7 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const projects = await response.json();
+    console.log(projects);
     return projects;
   }
 
