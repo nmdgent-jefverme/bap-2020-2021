@@ -39,7 +39,7 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
 
   return(
     <div className={`pile${dragging ? '__dragging' : ''}`} >
-      <Card extraClass={`pile--card color_${color}`} onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}>
+      <Card extraClass={`pile--card color_${color}`} onDragEnter={(e) => console.log(window)} onDragExit={() => setDragging(false)}>
         <h3>{title}</h3>
         <div className='pile--actions'>
           <PopupDelete 

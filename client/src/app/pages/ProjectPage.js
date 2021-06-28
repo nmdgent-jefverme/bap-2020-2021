@@ -67,7 +67,7 @@ const ProjectPage = () => {
         />
       }
       <div className='content'>
-        <div className='projectpage' onDragEnter={() => console.log('dragging')} onDragEnd={(ev) => console.log(ev)}>
+        <div className='projectpage' onDrop={() => console.log('Dropping')}>
           <PopupAdd 
             title='Stapel toevoegen' 
             onSubmit={handleAdd} 

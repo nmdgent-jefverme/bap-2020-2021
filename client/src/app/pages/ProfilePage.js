@@ -21,7 +21,6 @@ const ProfilePage = () => {
     () => {
       const fetchItems = async () => {
         let tempProjects = await getProjectsByUserId(currentUser.token, currentUser.id);
-        console.log(tempProjects);
         tempProjects = tempProjects.sort((a, b) => {
           return(new Date(b.project.updated_at) - new Date(a.project.updated_at));
         });

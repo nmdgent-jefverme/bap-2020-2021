@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Card = ({children, extraClass='', onDragEnter, onDragExit}) => {
+const Card = ({children, extraClass='', onDragStart, onDragEnter, onDragEnd}) => {
   return(
-    <div className={`card ${extraClass}`} onDragEnter={onDragEnter} onDragLeave={onDragExit} >
+    <div className={`card ${extraClass}`} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragEnter={onDragEnter} draggable >
       {children}
     </div>
   )

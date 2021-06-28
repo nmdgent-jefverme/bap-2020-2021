@@ -24,7 +24,6 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const projects = await response.json();
-    console.log(projects);
     return projects;
   }
 
@@ -278,10 +277,8 @@ const ApiProvider = ({children}) => {
       body: body,
       redirect: 'follow',
     };
-    console.log(options);
     const response = await fetch(url, options);
     const upLoadedFile = await response.json();
-    console.log(upLoadedFile)
     return upLoadedFile;
     /* const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -289,9 +286,7 @@ const ApiProvider = ({children}) => {
     const bodyParameters = {
       file: file
     };
-    console.log(bodyParameters);
-    const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);
-    console.log(result); */
+    const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);*/
   }
   
   const getAllColors = async (token) => {

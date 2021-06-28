@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Card from './Card';
 import ReactPlayer from 'react-player';
-import SpotifyPlayer from 'react-spotify-player';
+import SpotifyPlayer from 'react-spotify-web-playback';
 import { CgRename } from 'react-icons/cg';
 import { AiOutlineLink } from 'react-icons/ai';
 import { GrCirclePlay } from 'react-icons/gr';
@@ -12,7 +12,7 @@ import {
   validateYouTubeUrl,
   validateSpotifyUrl
 } from '../../utilities';
-
+console.log(localStorage.getItem('spotifyToken'));
 const IdeaCard = ({color, idea, fetchData}) => {
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
@@ -36,7 +36,7 @@ const IdeaCard = ({color, idea, fetchData}) => {
   }
 
   return(
-    <Card extraClass={`pile--card color_${color}`} /*onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}*/ >
+    <Card extraClass={`pile--card color_${color}`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} >
       <div className='w-100 d-flex flex-column align-items-start'>
         <div className='pile--card--header'>
           <p>{idea.title}</p>
@@ -63,8 +63,8 @@ const IdeaCard = ({color, idea, fetchData}) => {
         {
           validateSpotifyUrl(idea.link) && 
           <SpotifyPlayer
-            uri={idea.link}
-            size={playerSize}
+            token={localStorage.getItem('spotifyToken')}
+            uris={[idea.link]}
           />
         }
         {
