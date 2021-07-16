@@ -12,7 +12,7 @@ import {
   validateYouTubeUrl,
   validateSpotifyUrl
 } from '../../utilities';
-console.log(localStorage.getItem('spotifyToken'));
+
 const IdeaCard = ({color, idea, fetchData}) => {
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
