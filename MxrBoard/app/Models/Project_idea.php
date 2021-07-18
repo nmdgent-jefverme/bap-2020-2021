@@ -22,4 +22,8 @@ class Project_idea extends Model
     public function project () {
         return $this->belongsTo(Pile::class);
     }
+
+    public function author () {
+        return $this->belongsTo(User::class);
+    }
 }

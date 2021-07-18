@@ -11,7 +11,7 @@ class Pile extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'project_id', 'color_id'
+        'name', 'project_id', 'color_id', 'author_id'
     ];
 
     public function ideas () {

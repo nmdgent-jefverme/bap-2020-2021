@@ -21,7 +21,7 @@ class PileSeeder extends Seeder
             Pile::create([
                 'project_id' => Project::all()->random()->id,
                 'name' => $faker->word(),
-                'color_id' => Color::all()->random()->id
+                'color_id' => Color::all()->random()->id,
             ]);
         }
     }

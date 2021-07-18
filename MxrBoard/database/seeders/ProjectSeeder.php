@@ -26,6 +26,7 @@ class ProjectSeeder extends Seeder
             $value = new Users_in_project([
                 'project_id' => Project::all()->random()->id,
                 'user_id' => User::all()->random()->id,
+                'role' => 1
             ]);
 
             $value->timestamps = false;

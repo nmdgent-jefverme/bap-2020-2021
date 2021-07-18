@@ -21,7 +21,7 @@ class ProjectController extends BaseController
 
     public function byId(Project $project) {
         try {
-            return $this->sendResponse(Project::with('piles.color')->with('piles.ideas.idea_type')->with('author')->get()->find($project), 'Project with id: ' . $project->id . ' received succesfully');
+            return $this->sendResponse(Project::with('piles.color')->with('piles.ideas.idea_type')->with('author')->with('piles.ideas.author')->get()->find($project), 'Project with id: ' . $project->id . ' received succesfully');
         } catch (\Throwable $th) {
             return $this->sendError('Error retreiving projects', $th);
         }

@@ -21,7 +21,8 @@ class ProjectIdeaSeeder extends Seeder
             Project_idea::create([
                 'pile_id' => Pile::all()->random()->id,
                 'link' => 'https://www.youtube.com/watch?v=7LSbDdZLr1w',
-                'title' => $faker->word()
+                'title' => $faker->word(),
+                'author_id' => 1
             ]);
         }
     }

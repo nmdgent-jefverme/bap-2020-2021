@@ -39,7 +39,7 @@ const IdeaCard = ({color, idea, fetchData}) => {
     <Card extraClass={`pile--card color_${color}`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} >
       <div className='w-100 d-flex flex-column align-items-start'>
         <div className='pile--card--header'>
-          <p>{idea.title}</p>
+          <p className="pile--card--header--title">{idea.title}</p>
           <div>
             <PopupDelete title={`Idee verwijderen?`} onSubmit={() => handleRemove(idea.id)} />
             <PopupEdit title='Idee' onSubmit={handleUpdate} >
@@ -78,6 +78,7 @@ const IdeaCard = ({color, idea, fetchData}) => {
         {
           !isImage && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
         }
+        <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
       </div>
     </Card>
   )

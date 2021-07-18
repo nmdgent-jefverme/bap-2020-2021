@@ -20,6 +20,7 @@ class CreateProjectIdeaTable extends Migration
             $table->foreignId('pile_id')->constrained();
             $table->text('link');
             $table->text('title');
+            $table->foreignId('author_id')->references('id')->on('users');
         });
     }
 

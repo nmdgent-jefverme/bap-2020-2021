@@ -20,7 +20,10 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center; 
+      &--title {
+        text-transform: capitalize;
+      }
     }
 
     &--play {
@@ -38,6 +41,11 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       width: 100%;
+    }
+
+    &--author {
+      font-size: 14px;
+      margin-top: 10px;
     }
   }
   &--icon {

@@ -27,6 +27,7 @@ const ProjectPage = () => {
     () => {
       const fetchItems = async () => {
         let temp = await getProjectById(currentUser.token, id);
+        console.log(temp);
         setPiles(temp.data.piles);
         setProjectData(temp.data);
         const tempColors = await getAllColors(currentUser.token);
