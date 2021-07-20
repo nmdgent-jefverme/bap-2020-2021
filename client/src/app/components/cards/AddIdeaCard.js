@@ -11,7 +11,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   const { currentUser } = useAuth();
 
   const handleAdd = async () => {
-    const result = await addIdea(currentUser.token, project_id, 'Nieuw idee', newIdea, pile_id);
+    const result = await addIdea(currentUser.token, project_id, 'Nieuw idee', newIdea, pile_id, currentUser.id);
     if (result.success) {
       setNewIdea('');
       setDisplayErrors(false);

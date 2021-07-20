@@ -16,7 +16,8 @@ class IdeaController extends BaseController
         $validator = Validator::make($r->all(), [
             'link' => 'required',
             'pile_id' => 'required|exists:App\Models\Pile,id',
-            'title' => 'required'
+            'title' => 'required',
+            'author_id' => 'required'
         ]);
 
         if($validator->fails()){
@@ -25,7 +26,8 @@ class IdeaController extends BaseController
         $newIdea = new Project_idea([
             'pile_id' => $r->pile_id,
             'link' => $r->link,
-            'title' => $r->title
+            'title' => $r->title,
+            'author_id' => $r->author_id
         ]);
         $newIdea->save();
         return $this->sendResponse($newIdea, 'Idea created successfully.');

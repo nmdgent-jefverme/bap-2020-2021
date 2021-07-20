@@ -12,7 +12,7 @@ class Project_idea extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'link', 'idea_type_id', 'title', 'pile_id'
+        'link', 'idea_type_id', 'title', 'pile_id', 'author_id'
     ];
 
     public function idea_type () {

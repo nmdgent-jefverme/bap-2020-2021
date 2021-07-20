@@ -109,6 +109,46 @@ const ApiProvider = ({children}) => {
     return project;
   }
 
+  const inviteToProject = async (token, id, email) => {
+    const url = `${BASE_URL}/projects/${id}/invite`;
+    const body = {
+      email
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const project = await response.json();
+    console.log(project);
+    return project;
+  }
+
+  const canEditProject  = async (token, projectId, userId) => {
+    const url = `${BASE_URL}/projects/${projectId}/can_edit?user_id=${userId}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    console.log(result);
+    return result;
+  }
+
   /**
    * Pile functions
   */
@@ -177,12 +217,13 @@ const ApiProvider = ({children}) => {
   /**
    * Idea functions
   */
-  const addIdea = async (token, project_id, title, link, pile_id) => {
+  const addIdea = async (token, project_id, title, link, pile_id, author_id) => {
     const url = `${BASE_URL}/projects/${project_id}/add_idea`;
     const body = {
       link,
       pile_id,
-      title
+      title,
+      author_id
     };
     const myHeaders = {
       'Accept': 'application/json',
@@ -311,12 +352,14 @@ const ApiProvider = ({children}) => {
     <ApiContext.Provider value={{
       addIdea,
       addPile,
+      canEditProject,
       createProject,
       getAllColors,
       getAllProjects,
       getIdeaTypes,
       getProjectById,
       getProjectsByUserId,
+      inviteToProject,
       removeIdea,
       removePile,
       uploadFile,

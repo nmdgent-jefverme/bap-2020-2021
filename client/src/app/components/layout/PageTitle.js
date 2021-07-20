@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TextInput } from '../forms';
+import { PopupInvite } from '../popup';
 
-const PageTitle = ({title = '', info = false, author, date}) => {
+const PageTitle = ({title = '', info = false, author, date, inviteBtn = false, projectId = 0}) => {
   return(
     <div className='pagetitle'>
       {
@@ -10,7 +12,13 @@ const PageTitle = ({title = '', info = false, author, date}) => {
           <p>Laatst bewerkt: {date}</p>
         </div>
       }
-      <h1>{title}</h1>
+      <div className='pagetitle--title'>
+        <h1>{title}</h1>
+        {
+          inviteBtn &&
+          <PopupInvite projectId={projectId} />
+        }
+      </div>
     </div>
   )
 }

@@ -20,14 +20,21 @@ const ProjectPage = () => {
   const [ colors, setColors ] = useState();
   const [ title, setTitle ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(1);
-  const { addPile, getProjectById, getAllColors } = useApi();
+  const [ canEdit, setCanEdit ] = useState(false);
+  const { addPile, canEditProject, getProjectById, getAllColors } = useApi();
   const { currentUser } = useAuth();
 
   const initFetch = useCallback(
     () => {
       const fetchItems = async () => {
         let temp = await getProjectById(currentUser.token, id);
-        console.log(temp);
+        if(temp.data.author_id === currentUser.id) {
+          setCanEdit(true);
+        } else {
+          const result = await canEditProject(currentUser.token, id, currentUser.id);
+          console.log(result.data);
+          setCanEdit(result.data === 1 || result.data === 2);
+        }
         setPiles(temp.data.piles);
         setProjectData(temp.data);
         const tempColors = await getAllColors(currentUser.token);
@@ -35,7 +42,7 @@ const ProjectPage = () => {
       }
       fetchItems();
     },
-    [getProjectById, getAllColors, id, currentUser],
+    [getProjectById, getAllColors, id, currentUser, canEditProject],
   );
   
   useEffect(() => {
@@ -64,20 +71,25 @@ const ProjectPage = () => {
           title={projectData.title} 
           info={true} 
           author={projectData.author.name} 
-          date={new Date(projectData.updated_at).toLocaleDateString()} 
+          date={new Date(projectData.updated_at).toLocaleDateString()}
+          inviteBtn={true}
+          projectId={id}
         />
       }
       <div className='content'>
         <div className='projectpage' onDrop={() => console.log('Dropping')}>
-          <PopupAdd 
-            title='Stapel toevoegen' 
-            onSubmit={handleAdd} 
-            addButton={<Button placeholder='+' size='add'/>} 
-          >
-            <TextInput onChange={(ev) => setTitle(ev.target.value)} icon={<CgRename />} placeholder='Titel stapel' />
-            <span>Kies een kleur:</span>
-            <ColorPicker setSelectedColor={setSelectedColor} colors={colors} activeColor={selectedColor} />
-          </PopupAdd>
+          {
+            canEdit && 
+            <PopupAdd 
+              title='Stapel toevoegen' 
+              onSubmit={handleAdd} 
+              addButton={<Button placeholder='+' size='add'/>} 
+            >
+              <TextInput onChange={(ev) => setTitle(ev.target.value)} icon={<CgRename />} placeholder='Titel stapel' />
+              <span>Kies een kleur:</span>
+              <ColorPicker setSelectedColor={setSelectedColor} colors={colors} activeColor={selectedColor} />
+            </PopupAdd>
+          }
           <Masonry
             breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"
@@ -92,7 +104,8 @@ const ProjectPage = () => {
                   title={pile.name} 
                   ideas={pile.ideas} 
                   fetchData={initFetch} 
-                  project_id={id} 
+                  project_id={id}
+                  canEdit={canEdit}
                 />
               ) : <span>Geen ideeën voor dit project.</span>
             }

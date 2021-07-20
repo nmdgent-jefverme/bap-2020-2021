@@ -79,4 +79,40 @@ class ProjectController extends BaseController
         ])->delete();
         return $this->sendResponse([], 'Project deleted successfully');
     }
+
+    public function invite (Project $project, Request $r) {
+        $validator = Validator::make($r->all(), [
+            'email' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+        $user = User::where('email', $r->email)->first();
+        if($user === null) {
+            return $this->sendError('user not found', 404, 404);
+        }
+        $check = Users_in_project::where([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+        ])->exists();
+        if($check) {
+            return $this->sendError('user already in project', 404, 404);
+        }
+        $invite = new Users_in_project([
+            'project_id' => $project->id,
+            'user_id' => $user->id,
+            'role' => 1
+        ]);
+        $invite->save();
+        return $this->sendResponse($invite, 'Inviting to project');
+    }
+
+    public function canEditProject (Project $project, Request $r) {
+        $check = Users_in_project::where([
+            'project_id' => $project->id,
+            'user_id' => (int)$_GET['user_id'],
+        ])->first();
+        return $this->sendResponse($check->role, 'Check user role');
+    }
 }

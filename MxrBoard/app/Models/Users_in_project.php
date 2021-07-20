@@ -12,7 +12,12 @@ class Users_in_project extends Model
     protected $fillable = [
         'user_id',
         'project_id',
+        'role'
     ];
+
+    public $timestamps = false;
+    protected $primaryKey = null;
+    public $incrementing = false;
 
     public function project () {
         return $this->belongsTo(Project::class);

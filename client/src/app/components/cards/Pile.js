@@ -7,7 +7,7 @@ import { useApi, useAuth } from '../../services';
 import { IdeaCard } from '.';
 import AddIdeaCard from './AddIdeaCard';
 
-const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
+const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = false}) => {
   const [ colors, setColors ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(color);
   const [ newTitle, setNewTitle ] = useState(title);
@@ -68,24 +68,30 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData}) => {
                   />
                 )
               }
-              <AddIdeaCard 
-                color={color}
-                project_id={project_id}
-                pile_id={id}
-                fetchData={fetchData}
-              />
+              {
+              canEdit &&
+                <AddIdeaCard 
+                  color={color}
+                  project_id={project_id}
+                  pile_id={id}
+                  fetchData={fetchData}
+                />
+              }
             </>
           :
             <>
               <Card extraClass={`pile--card__example color_${color}`}>
                 <span>Nog geen ideeën</span>
               </Card>
-              <AddIdeaCard 
-                color={color}
-                project_id={project_id}
-                pile_id={id}
-                fetchData={fetchData}
-              />
+              {
+                canEdit &&
+                <AddIdeaCard 
+                  color={color}
+                  project_id={project_id}
+                  pile_id={id}
+                  fetchData={fetchData}
+                />
+              }
             </>
         }
     </div>
