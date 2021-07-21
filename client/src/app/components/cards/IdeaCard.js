@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Card from './Card';
 import ReactPlayer from 'react-player';
 import SpotifyPlayer from 'react-spotify-web-playback';
+import { DefaultEditor } from 'react-simple-wysiwyg';
 import { CgRename } from 'react-icons/cg';
 import { AiOutlineLink } from 'react-icons/ai';
 import { GrCirclePlay } from 'react-icons/gr';
@@ -9,21 +10,18 @@ import { PopupDelete, PopupEdit } from '../popup';
 import { useApi, useAuth } from '../../services';
 import { TextInput } from '../forms';
 import { 
+  isValidURL,
   validateYouTubeUrl,
   validateSpotifyUrl
 } from '../../utilities';
 
-const IdeaCard = ({color, idea, fetchData}) => {
+const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
   const [ link, setLink ] = useState(idea.link);
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
-  const playerSize = {
-    width: '100%',
-    height: 80,
-  };
 
   const handleRemove = async (id) => {
     await removeIdea(currentUser.token, id);
@@ -35,18 +33,34 @@ const IdeaCard = ({color, idea, fetchData}) => {
     fetchData();
   }
 
+  function createMarkup() {
+    return {__html: idea.link};
+  }
+
+  console.log(validateSpotifyUrl(idea.link), idea.link);
+
   return(
     <Card extraClass={`pile--card color_${color}`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} >
       <div className='w-100 d-flex flex-column align-items-start'>
         <div className='pile--card--header'>
           <p className="pile--card--header--title">{idea.title}</p>
-          <div>
-            <PopupDelete title={`Idee verwijderen?`} onSubmit={() => handleRemove(idea.id)} />
-            <PopupEdit title='Idee' onSubmit={handleUpdate} >
-              <TextInput defaultValue={title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
-              <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
-            </PopupEdit>
-          </div>
+          {
+            canEdit &&
+            <div>
+              <PopupDelete title={`Idee verwijderen?`} onSubmit={() => handleRemove(idea.id)} />
+              <PopupEdit title='Idee' onSubmit={handleUpdate} >
+                <TextInput defaultValue={title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
+                {
+                  !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) ?
+                  <div className='w-100'>
+                    <DefaultEditor value={link} onChange={(ev) => setLink(ev.target.value)} />
+                  </div>
+                  :
+                  <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
+                }
+              </PopupEdit>
+            </div>
+          }
         </div>
         {
           validateYouTubeUrl(idea.link) && 
@@ -76,7 +90,11 @@ const IdeaCard = ({color, idea, fetchData}) => {
           />
         }
         {
-          !isImage && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
+          isValidURL(idea.link) && !isImage && !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
+        }
+        {
+          !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) &&
+          <div dangerouslySetInnerHTML={createMarkup()} />
         }
         <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
       </div>

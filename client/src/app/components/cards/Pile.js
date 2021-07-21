@@ -41,19 +41,22 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = fal
     <div className={`pile${dragging ? '__dragging' : ''}`} >
       <Card extraClass={`pile--card color_${color}`} onDragEnter={(e) => console.log(window)} onDragExit={() => setDragging(false)}>
         <h3>{title}</h3>
-        <div className='pile--actions'>
-          <PopupDelete 
-            title='Stapel verwijderen?'
-            onSubmit={handleDelete}
-          />
-          <PopupEdit className='pile--icon' title={title} onSubmit={handleUpdate} >
-            <TextInput placeholder='Naam stapel' defaultValue={title} icon={<CgRename />} onChange={(ev) => setNewTitle(ev.target.value)} />
-            <p>Kleur van de stapel:</p>
-            {
-              !!colors && <ColorPicker colors={colors} activeColor={selectedColor} setSelectedColor={setSelectedColor}/>
-            }
-          </PopupEdit>
-        </div>
+        {
+          canEdit &&
+          <div className='pile--actions'>
+            <PopupDelete 
+              title='Stapel verwijderen?'
+              onSubmit={handleDelete}
+            />
+            <PopupEdit className='pile--icon' title={title} onSubmit={handleUpdate} >
+              <TextInput placeholder='Naam stapel' defaultValue={title} icon={<CgRename />} onChange={(ev) => setNewTitle(ev.target.value)} />
+              <p>Kleur van de stapel:</p>
+              {
+                !!colors && <ColorPicker colors={colors} activeColor={selectedColor} setSelectedColor={setSelectedColor}/>
+              }
+            </PopupEdit>
+          </div>
+        }
       </Card>
         {
           ideas.length > 0 ? 
@@ -65,6 +68,7 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = fal
                     color={color}
                     idea={idea}
                     fetchData={fetchData}
+                    canEdit={canEdit}
                   />
                 )
               }

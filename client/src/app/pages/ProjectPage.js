@@ -33,7 +33,7 @@ const ProjectPage = () => {
         } else {
           const result = await canEditProject(currentUser.token, id, currentUser.id);
           console.log(result.data);
-          setCanEdit(result.data === 1 || result.data === 2);
+          setCanEdit(result.data === 1);
         }
         setPiles(temp.data.piles);
         setProjectData(temp.data);
@@ -72,7 +72,7 @@ const ProjectPage = () => {
           info={true} 
           author={projectData.author.name} 
           date={new Date(projectData.updated_at).toLocaleDateString()}
-          inviteBtn={true}
+          inviteBtn={canEdit}
           projectId={id}
         />
       }

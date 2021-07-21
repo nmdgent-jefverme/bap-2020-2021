@@ -51,7 +51,8 @@ class ProjectController extends BaseController
         $project->save();
         $usersInProject = new Users_in_project([
             'user_id' => $r->user_id,
-            'project_id' => $project->id
+            'project_id' => $project->id,
+            'role' => 1
         ]);
         $usersInProject->timestamps = false;
         $usersInProject->save();
@@ -102,7 +103,7 @@ class ProjectController extends BaseController
         $invite = new Users_in_project([
             'project_id' => $project->id,
             'user_id' => $user->id,
-            'role' => 1
+            'role' => (int)$r->role
         ]);
         $invite->save();
         return $this->sendResponse($invite, 'Inviting to project');

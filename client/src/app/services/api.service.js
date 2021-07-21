@@ -109,10 +109,11 @@ const ApiProvider = ({children}) => {
     return project;
   }
 
-  const inviteToProject = async (token, id, email) => {
+  const inviteToProject = async (token, id, email, role) => {
     const url = `${BASE_URL}/projects/${id}/invite`;
     const body = {
-      email
+      email,
+      role
     };
     const myHeaders = {
       'Accept': 'application/json',

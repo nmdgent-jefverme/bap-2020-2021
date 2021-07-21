@@ -5,11 +5,12 @@ import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { useApi, useAuth } from '../../services';
 
 
-const PopupInvite = ({projectId}) => {
+const PopupInvite = ({projectId, onChange}) => {
   const [ show, setShow ] = useState(false);
-  const [ email, setEmail ] = useState();
+  const [ email, setEmail ] = useState('');
   const [ displayErrors, setDisplayErrors ] = useState(false);
-  const [ errors, setErrors ] = useState();
+  const [ errors, setErrors ] = useState([]);
+  const [ role, setRole ] = useState(0);
 
   const { inviteToProject } = useApi();
   const { currentUser } = useAuth();
@@ -18,15 +19,31 @@ const PopupInvite = ({projectId}) => {
   const handleShow = () => setShow(true);
 
   const submitFuncion = async () => {
-    const result = await inviteToProject(currentUser.token, projectId, email);
-    if (!result.success && result.message === 'user not found') {
+    let error = false;
+    const tempErrors = [];
+    if (role === 0) {
+      error = true;
+      tempErrors.push('Gelieve een rol te selecteren');
+    }
+    if (email.trim() === '') {
+      error = true;
+      tempErrors.push('Gelieve een email in te vullen')
+    }
+
+    if(error) {
+      setErrors(tempErrors);
       setDisplayErrors(true);
-      setErrors(['Gebruiker niet gevonden']);
-    } else if(!result.success && result.message === 'user already in project') {
-      setDisplayErrors(true);
-      setErrors(['Gebruiker reeds toegevoegd']);
     } else {
-      handleClose();
+      const result = await inviteToProject(currentUser.token, projectId, email, role);
+      if (!result.success && result.message === 'user not found') {
+        setDisplayErrors(true);
+        setErrors(['Gebruiker niet gevonden']);
+      } else if(!result.success && result.message === 'user already in project') {
+        setDisplayErrors(true);
+        setErrors(['Gebruiker reeds toegevoegd']);
+      } else {
+        handleClose();
+      }
     }
   }
 
@@ -41,6 +58,11 @@ const PopupInvite = ({projectId}) => {
         </Modal.Header>
         <Modal.Body>
           <TextInput type='email' placeholder='Vul het email adres in' defaultValue={email} onChange={(ev) => setEmail(ev.target.value)} />
+          <select className='dropdown' onChange={(ev) => setRole(parseInt(ev.target.value))}>
+            <option value='0'>Kies een rol...</option>
+            <option value='1'>Bewerken</option>
+            <option value='2'>Bekijken</option>
+          </select>
           {
             displayErrors && <Errors errors={errors} />
           }
