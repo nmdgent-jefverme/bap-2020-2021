@@ -28,6 +28,7 @@ const AuthProvider = ({children}) => {
       redirect: 'follow'
     };
     const response = await fetch(`${url}`, options);
+    console.log(response);
     const user = await response.json();
     updateUserObject(user);
     return user;
