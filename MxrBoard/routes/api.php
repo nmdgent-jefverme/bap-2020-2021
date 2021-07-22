@@ -41,6 +41,7 @@ Route::middleware('auth:api')->group( function () {
 
     Route::get('/idea_types', [ IdeaTypeController::class, 'index' ]);
     Route::get('/colors', [ ColorsController::class, 'index' ]);
+    Route::post('/colors', [ ColorsController::class, 'addColor' ]);
     Route::get('/projects/{project}/can_edit', [ ProjectController::class, 'canEditProject' ]);
 
     /**

@@ -16,6 +16,7 @@ class CreateColorsTable extends Migration
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
             $table->string('color_value');
+            $table->foreignId('author_id')->references('id')->on('users');
         });
     }
 
