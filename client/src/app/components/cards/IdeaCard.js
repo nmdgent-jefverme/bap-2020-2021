@@ -37,10 +37,8 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
     return {__html: idea.link};
   }
 
-  console.log(validateSpotifyUrl(idea.link), idea.link);
-
   return(
-    <Card extraClass={`pile--card color_${color}`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} >
+    <Card extraClass={`pile--card`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} style={{backgroundColor: color}} >
       <div className='w-100 d-flex flex-column align-items-start'>
         <div className='pile--card--header'>
           <p className="pile--card--header--title">{idea.title}</p>
@@ -96,7 +94,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) &&
           <div dangerouslySetInnerHTML={createMarkup()} />
         }
-        <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
+        <p className='pile--card--author'>Toegevoegd door: <i>{idea.author.name}</i></p>
       </div>
     </Card>
   )

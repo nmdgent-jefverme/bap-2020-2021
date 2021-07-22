@@ -7,7 +7,7 @@ import { useApi, useAuth } from '../../services';
 import { IdeaCard } from '.';
 import AddIdeaCard from './AddIdeaCard';
 
-const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = false}) => {
+const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false}) => {
   const [ colors, setColors ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(color);
   const [ newTitle, setNewTitle ] = useState(title);
@@ -17,8 +17,8 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = fal
 
   const initFetch = useCallback(() => {
     const fetchItems = async () => {
-      const tempColors = await getAllColors(currentUser.token);
-      setColors(tempColors.data);
+      const tempColors = await getAllColors(currentUser.token, currentUser.id);
+      setColors(tempColors);
     }
     fetchItems();
   }, [getAllColors, currentUser]);
@@ -39,7 +39,7 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = fal
 
   return(
     <div className={`pile${dragging ? '__dragging' : ''}`} >
-      <Card extraClass={`pile--card color_${color}`} onDragEnter={(e) => console.log(window)} onDragExit={() => setDragging(false)}>
+      <Card extraClass={`pile--card`} onDragEnter={(e) => console.log(window)} onDragExit={() => setDragging(false)} style={{backgroundColor: color}}>
         <h3>{title}</h3>
         {
           canEdit &&
@@ -84,7 +84,7 @@ const Pile = ({id, title, color = 1, ideas, project_id, fetchData, canEdit = fal
             </>
           :
             <>
-              <Card extraClass={`pile--card__example color_${color}`}>
+              <Card extraClass={`pile--card__example`} style={{backgroundColor: color}}>
                 <span>Nog geen ideeën</span>
               </Card>
               {

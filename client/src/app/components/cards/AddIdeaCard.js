@@ -36,7 +36,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   }
 
   return(
-    <Card extraClass={`d-flex flex-column pile--card color_${color}`} /*onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}*/ >
+    <Card extraClass={`d-flex flex-column pile--card`} style={{backgroundColor: color}} /*onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}*/ >
       <div className={`d-flex ${showEditor ? 'pile--card--column' : 'align-items-center' } w-100`}>
         {
           !showEditor &&

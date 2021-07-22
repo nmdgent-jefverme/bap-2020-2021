@@ -1,8 +1,19 @@
 .colorpicker {
   margin-top: $gutter-small;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+
+  &--colors {
+    margin-top: $gutter-small;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .hue-picker {
+    margin-top: 25px;
+  }
 
   &--color, &--color__selected {
     width: 50px;

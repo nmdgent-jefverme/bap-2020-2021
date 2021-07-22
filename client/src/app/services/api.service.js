@@ -4,7 +4,7 @@ const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
-  const BASE_URL = '';
+  const BASE_URL = 'http://api.jefverme-cms.be/api';
 
   /**
    * Project functions
@@ -331,8 +331,8 @@ const ApiProvider = ({children}) => {
     const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);*/
   }
   
-  const getAllColors = async (token) => {
-    const url = `${BASE_URL}/colors`;
+  const getAllColors = async (token, id) => {
+    const url = `${BASE_URL}/colors?user_id=${id}`;
 
     const myHeaders = {
       'Accept': 'application/json',
@@ -346,11 +346,39 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const projects = await response.json();
-    return projects;
+    if(projects.data.length >= 5) {
+      const result = projects.data.slice(-5);
+      return result;
+    } else {
+      return projects.data;
+    }
+  }
+
+  const addColor = async (token, color_value, author_id) => {
+    const url = `${BASE_URL}/colors`;
+    const body = {
+      color_value,
+      author_id
+    };
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const color = await response.json();
+    return color;
   }
 
   return (
     <ApiContext.Provider value={{
+      addColor,
       addIdea,
       addPile,
       canEditProject,

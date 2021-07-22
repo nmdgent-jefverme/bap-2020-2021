@@ -8,7 +8,7 @@ const AuthProvider = ({children}) => {
   const { getUser, setUser } = useSessionstorage();
   const [ currentUser, setCurrentUser ] = useState(getUser());
 
-  const BASE_URL = '';
+  const BASE_URL = 'http://api.jefverme-cms.be/api';
 
   const signIn = async (email, password) => {
     const url = `${BASE_URL}/user/login`;

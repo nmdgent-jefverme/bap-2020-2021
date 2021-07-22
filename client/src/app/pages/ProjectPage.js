@@ -21,7 +21,7 @@ const ProjectPage = () => {
   const [ title, setTitle ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(1);
   const [ canEdit, setCanEdit ] = useState(false);
-  const { addPile, canEditProject, getProjectById, getAllColors } = useApi();
+  const { addColor, addPile, canEditProject, getProjectById, getAllColors } = useApi();
   const { currentUser } = useAuth();
 
   const initFetch = useCallback(
@@ -35,10 +35,11 @@ const ProjectPage = () => {
           console.log(result.data);
           setCanEdit(result.data === 1);
         }
+        console.log(temp.data.piles);
         setPiles(temp.data.piles);
         setProjectData(temp.data);
-        const tempColors = await getAllColors(currentUser.token);
-        setColors(tempColors.data);
+        const tempColors = await getAllColors(currentUser.token, currentUser.id);
+        setColors(tempColors);
       }
       fetchItems();
     },
@@ -50,9 +51,16 @@ const ProjectPage = () => {
   }, [initFetch]);
 
   const handleAdd = async () => {
-    await addPile(currentUser.token, id, selectedColor, title);
-    let temp = await getProjectById(currentUser.token, id);
-    setPiles(temp.data.piles);
+    if(isNaN(selectedColor)) {
+      const newColor = await addColor(currentUser.token, selectedColor, currentUser.id);
+      await addPile(currentUser.token, id, newColor.data.id, title);
+      let temp = await getProjectById(currentUser.token, id);
+      setPiles(temp.data.piles);
+    } else {
+      await addPile(currentUser.token, id, selectedColor, title);
+      let temp = await getProjectById(currentUser.token, id);
+      setPiles(temp.data.piles);
+    }
   }
 
   const breakpointColumnsObj = {
@@ -100,7 +108,7 @@ const ProjectPage = () => {
                 <Pile 
                   key={key} 
                   id={pile.id} 
-                  color={pile.color_id} 
+                  color={pile.color.color_value} 
                   title={pile.name} 
                   ideas={pile.ideas} 
                   fetchData={initFetch} 
