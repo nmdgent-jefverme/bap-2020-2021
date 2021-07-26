@@ -4,7 +4,8 @@ const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
-  const BASE_URL = 'http://api.jefverme-cms.be/api';
+  // const BASE_URL = 'http://api.jefverme-cms.be/api';
+  const BASE_URL = '';
 
   /**
    * Project functions
