@@ -9,6 +9,7 @@ import { GrCirclePlay } from 'react-icons/gr';
 import { PopupDelete, PopupEdit } from '../popup';
 import { useApi, useAuth } from '../../services';
 import { TextInput } from '../forms';
+import { BiTime } from 'react-icons/bi';
 import { 
   isValidURL,
   validateYouTubeUrl,
@@ -20,6 +21,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
   const [ link, setLink ] = useState(idea.link);
+  const [ startPoint, setStartPoint ] = useState('00:00:00');
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
   const handleRemove = async (id) => {
@@ -28,7 +30,9 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   }
 
   const handleUpdate = async (id) => {
-    await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id);
+    const [hours, minutes, seconds] = startPoint.split(':');
+    const totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+    await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id, totalSeconds);
     fetchData();
   }
 
@@ -55,14 +59,21 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
                   :
                   <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
                 }
+                {
+                  validateYouTubeUrl(idea.link) && 
+                  <div className='w-100 d-flex flex-column align-items-start'>
+                    <p className='pb-2'>Startpunt video ('hh:mm:ss')</p>
+                    <TextInput type='time' defaultValue={new Date(idea.start_point * 1000).toISOString().substr(11, 8)} icon={<BiTime />} onChange={(ev) => setStartPoint(ev.target.value)} />
+                  </div>
+                }
               </PopupEdit>
             </div>
           }
         </div>
         {
-          validateYouTubeUrl(idea.link) && 
+          validateYouTubeUrl(idea.link) &&
           <ReactPlayer
-            url={idea.link}
+            url={`${idea.link}${idea.start_point > 0 ? `&start=${idea.start_point}` : ''}`}
             width='100%'
             height='180px'
             playing={isPlaying}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HuePicker } from 'react-color'
+import TextInput from './TextInput';
 
 const ColorPicker = ({colors, activeColor, setSelectedColor}) => {
   const [ newColor, setNewColor ] = useState('fff');

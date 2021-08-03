@@ -38,7 +38,6 @@ const ProjectPage = () => {
           if(!result.success) history.push(Routes.PROJECTS);
           setCanEdit(result.data === 1);
         }
-        console.log(temp.data.piles);
         setPiles(temp.data.piles);
         setProjectData(temp.data);
         const tempColors = await getAllColors(currentUser.token, currentUser.id);

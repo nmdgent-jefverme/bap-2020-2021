@@ -6,7 +6,6 @@ const useApi = () => useContext(ApiContext);
 const ApiProvider = ({children}) => {
   const mode = process.env.REACT_APP_MODE;
   const BASE_URL = mode === 'local' ? '' : 'http://api.jefverme-cms.be/api';
-  console.log(BASE_URL);
 
   /**
    * Project functions
@@ -259,12 +258,13 @@ const ApiProvider = ({children}) => {
     return idea;
   }
 
-  const updateIdea = async (token, id, title, link, pile_id) => {
+  const updateIdea = async (token, id, title, link, pile_id, start_point) => {
     const url = `${BASE_URL}/idea/${id}`;
     const body = {
       pile_id,
       link,
-      title
+      title,
+      start_point
     };
     const myHeaders = {
       'Accept': 'application/json',

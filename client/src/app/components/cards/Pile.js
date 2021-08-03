@@ -48,7 +48,7 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
   const handleDragLeave = async () => {
     const idea = window.idea;
     if(window.idea.pile_id !== id && idea) {
-      const result = await updateIdea(currentUser.token, idea.id, idea.title, idea.link, id );
+      const result = await updateIdea(currentUser.token, idea.id, idea.title, idea.link, id, idea.start_point );
       if (result.success) fetchData();
     }
     setAdding(false)
@@ -82,7 +82,7 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
           </Card>
         }
         {
-          ideas.length > 0 ? 
+          ideas && ideas.length > 0 ? 
             <>
               {
                 ideas.map((idea, key) =>

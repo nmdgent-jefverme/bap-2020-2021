@@ -10,7 +10,6 @@ const AuthProvider = ({children}) => {
 
   const mode = process.env.REACT_APP_MODE;
   const BASE_URL = mode === 'local' ? '' : 'http://api.jefverme-cms.be/api';
-  console.log(BASE_URL);
 
   const signIn = async (email, password) => {
     const url = `${BASE_URL}/user/login`;
@@ -30,7 +29,6 @@ const AuthProvider = ({children}) => {
       redirect: 'follow'
     };
     const response = await fetch(`${url}`, options);
-    console.log(response);
     const user = await response.json();
     updateUserObject(user);
     return user;
