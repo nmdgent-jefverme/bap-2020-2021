@@ -18,6 +18,8 @@ import './App.scss';
 import { ApiProvider, AuthProvider, SessionstorageProvider } from './services';
 import { AuthRouteWithLayout, RouteWithLayout } from './utilities';
 
+require('dotenv').config();
+
 const App = () => {
   return(
     <SessionstorageProvider>
