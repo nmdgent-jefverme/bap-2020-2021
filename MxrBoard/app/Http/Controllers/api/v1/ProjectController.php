@@ -120,4 +120,9 @@ class ProjectController extends BaseController
             return $this->sendError('User not in project', 404, 404);
         }
     }
+
+    public function getUsersInProject (Project $project) {
+        $users = Users_in_project::where('project_id', $project->id)->with('user')->get();
+        return $this->sendResponse($users, 'users found');
+    }
 }

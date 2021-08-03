@@ -39,7 +39,7 @@ class PileController extends BaseController
     public function update( Pile $pile, Request $r ) {
         $validator = Validator::make($r->all(), [
             'name' => 'required',
-            'color_id' => 'required|exists:App\Models\Color,id',
+            'color_id' => 'required',
         ]);
 
         if($validator->fails()){
