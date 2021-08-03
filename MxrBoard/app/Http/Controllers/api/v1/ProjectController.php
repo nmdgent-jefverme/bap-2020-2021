@@ -29,7 +29,7 @@ class ProjectController extends BaseController
 
     public function byUserId(User $user) {
         try {
-            return $this->sendResponse(Users_in_project::with('user')->with('project')->get()->where('user_id', $user->id)->groupBy('project_id'), 'Project from user: ' . $user->name . ' received succesfully');
+            return $this->sendResponse(Users_in_project::with('user')->with('project')->with('project.author')->get()->where('user_id', $user->id)->groupBy('project_id'), 'Project from user: ' . $user->name . ' received succesfully');
         } catch (\Throwable $th) {
             return $this->sendError('Error retreiving projects', $th);
         }
@@ -114,6 +114,10 @@ class ProjectController extends BaseController
             'project_id' => $project->id,
             'user_id' => (int)$_GET['user_id'],
         ])->first();
-        return $this->sendResponse($check->role, 'Check user role');
+        if($check !== null) {
+            return $this->sendResponse($check->role, 'Check user role');
+        } else {
+            return $this->sendError('User not in project', 404, 404);
+        }
     }
 }

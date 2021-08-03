@@ -26,6 +26,7 @@ Route::middleware('auth:api')->group( function () {
     Route::get('/bands', [BandController::class, 'index']);
     Route::prefix('/user')->group( function () {
         Route::post('/edit/{user}', [UserController::class, 'editUser']);
+        Route::post('/edit_picture/{user}', [UserController::class, 'editUserPicture']);
         Route::get('/projects/{user}', [ ProjectController::class, 'byUserId' ]);
     });
 
@@ -50,6 +51,7 @@ Route::middleware('auth:api')->group( function () {
     Route::post('/pile/{pile}', [ PileController::class, 'update' ]);
     Route::post('/piles/add_pile', [ PileController::class, 'addPile' ]);
     Route::delete('/pile/{pile}', [ PileController::class, 'delete' ]);
+    Route::get('/pile/{pile}', [ PileController::class, 'byId' ]);
 
     Route::post('/projects/{project}/add_idea', [ IdeaController::class, 'addIdea' ]);
 
@@ -58,6 +60,7 @@ Route::middleware('auth:api')->group( function () {
 
     //fileupload
     Route::post('/file_upload', [FileUploadController::class, 'upload']);
+    Route::get('/file/{file}', [FileUploadController::class, 'getFile']);
 
 });
 

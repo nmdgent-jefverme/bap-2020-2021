@@ -34,4 +34,25 @@ class UserController extends BaseController
 
         return $this->sendResponse($success, 'User updated successfully.');
     }
+
+    public function editUserPicture ( User $user, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'fileId' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors(), 400);
+        }
+        $user->profile_picture = $request->fileId;
+        $user->save();
+
+        $success['token'] =  $user->createToken('apiToken')-> accessToken;
+        $success['id'] =  $user->id;
+        $success['name'] =  $user->name;
+        $success['email'] =  $user->email;
+        $success['instruments'] =  $user->instruments;
+        $success['profile_picture'] =  $user->profile_picture;
+
+        return $this->sendResponse($success, 'User updated successfully.');
+    }
 }

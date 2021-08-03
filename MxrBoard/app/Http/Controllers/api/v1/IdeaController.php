@@ -36,7 +36,8 @@ class IdeaController extends BaseController
     public function updateIdea( $id, Request $r ) {
         $validator = Validator::make($r->all(), [
             'link' => 'required',
-            'title' => 'required'
+            'title' => 'required',
+            'pile_id' => 'required',
         ]);
 
         if($validator->fails()){
@@ -49,6 +50,7 @@ class IdeaController extends BaseController
         $project->touch();
         $idea->title = $r->title;
         $idea->link = $r->link;
+        $idea->pile_id = $r->pile_id;
         $idea->save();
         return $this->sendResponse($idea, 'Idea updated successfully.');
     }
