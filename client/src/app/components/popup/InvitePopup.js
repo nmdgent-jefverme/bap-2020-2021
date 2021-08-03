@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Button, Errors, TextInput } from '../forms';
+import { Button, Errors, Message, TextInput } from '../forms';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { useApi, useAuth } from '../../services';
-
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 const PopupInvite = ({projectId, onChange}) => {
   const [ show, setShow ] = useState(false);
@@ -11,6 +11,8 @@ const PopupInvite = ({projectId, onChange}) => {
   const [ displayErrors, setDisplayErrors ] = useState(false);
   const [ errors, setErrors ] = useState([]);
   const [ role, setRole ] = useState(0);
+  const [ displayMessage, setDisplayMessage ] = useState(false);
+  const [ displayMessageAnimation, setDisplayMessageAnimation ] = useState(false);
 
   const { inviteToProject } = useApi();
   const { currentUser } = useAuth();
@@ -42,6 +44,14 @@ const PopupInvite = ({projectId, onChange}) => {
         setDisplayErrors(true);
         setErrors(['Gebruiker reeds toegevoegd']);
       } else {
+        setDisplayMessage(true);
+        setDisplayMessageAnimation(true);
+        window.setTimeout(() => {
+          setDisplayMessageAnimation(false);
+        }, 2000)
+        window.setTimeout(() => {
+          setDisplayMessage(false);
+        }, 4000)
         handleClose();
       }
     }
@@ -71,6 +81,16 @@ const PopupInvite = ({projectId, onChange}) => {
           <Button onClick={submitFuncion} placeholder='Uitnodigen' />
         </Modal.Footer>
       </Modal>
+      <div>
+        {
+          displayMessage &&
+          <Message
+            message='Gebruiker uitgenodigd'
+            display={displayMessageAnimation}
+            icon={<span className='success'><AiOutlineCheckCircle /></span>}
+          />
+        }
+      </div>
     </>
   )
 }

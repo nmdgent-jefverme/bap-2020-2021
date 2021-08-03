@@ -31,6 +31,12 @@
       }
     }
   }
+
+  &--closebtn a {
+    color: $color-danger;
+    font-size: 40px;
+    border-radius: 100%;
+  }
 }
 
 @media screen and (max-width: 449px) {

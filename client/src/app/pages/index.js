@@ -5,6 +5,7 @@ import ProfileEditPage from './ProfileEditPage';
 import ProjectPage from './ProjectPage';
 import ProjectsPage from './ProjectsPage';
 import RegisterPage from './RegisterPage';
+import PileDetailPage from './PileDetailPage';
 
 export {
   AddProjectPage,
@@ -13,5 +14,6 @@ export {
   ProfileEditPage,
   ProjectPage,
   ProjectsPage,
-  RegisterPage
+  RegisterPage,
+  PileDetailPage
 }

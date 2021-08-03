@@ -5,7 +5,8 @@ import { FiEdit } from 'react-icons/fi';
 import {
   Card,
   Navigation,
-  PageTitle
+  PageTitle,
+  PopupEdit
 } from '../components';
 import * as Routes from '../routes';
 
@@ -46,14 +47,14 @@ const ProfilePage = () => {
           </div>
           <div className='profilepage--info-container'>
             <div className='d-flex align-items-center justify-content-between'>
-              <h3>Mijn profiel</h3>
-              <Link to={Routes.PROFILE_EDIT}><FiEdit className='profilepage--edit'/></Link>
+              <h3 className="pb-4">Mijn profiel</h3>
+              <Link to={Routes.PROFILE_EDIT} className="pb-4"><FiEdit className='profilepage--edit'/></Link>
             </div>
             {
               !!currentUser &&
               <div>
-                <p>Naam: {currentUser.name}</p>
-                <p>Email: {currentUser.email}</p> 
+                <p className="pb-2">Naam: {currentUser.name}</p>
+                <p className="pb-2">Email: {currentUser.email}</p> 
                 <p>Instrumenten: {currentUser.instruments}</p>
               </div>
             }
@@ -66,9 +67,6 @@ const ProfilePage = () => {
               userProjects && userProjects.map((project, key) => {return <Link key={key} className='profilepage--overviewcard--link' to={Routes.PROJECT_PAGE.replace(':id', project.project.id)}>{project.project.title}</Link>})
             }
             <Link className='profilepage--overviewcard--link' to={Routes.PROJECTS}>&gt;&gt; Al mijn projecten</Link>
-          </Card>
-          <Card extraClass='profilepage--overviewcard'>
-            <h3>Mijn bands</h3>
           </Card>
         </div>
       </div>

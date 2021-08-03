@@ -4,8 +4,8 @@ const ApiContext = createContext();
 const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
-  const BASE_URL = 'http://api.jefverme-cms.be/api';
-  // const BASE_URL = '';
+  // const BASE_URL = 'http://api.jefverme-cms.be/api';
+  const BASE_URL = '';
 
   /**
    * Project functions
@@ -147,13 +147,28 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const result = await response.json();
-    console.log(result);
     return result;
   }
 
   /**
    * Pile functions
   */
+ const getPileById = async (token, id) => {
+  const url = `${BASE_URL}/pile/${id}`;
+  const myHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
+  }
+  const options = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+  const response = await fetch(`${url}`, options);
+  const pile = await response.json();
+  return pile;
+ }
   const addPile = async (token, project_id, color_id, name) => {
     const url = `${BASE_URL}/piles/add_pile`;
     const body = {
@@ -243,9 +258,10 @@ const ApiProvider = ({children}) => {
     return idea;
   }
 
-  const updateIdea = async (token, id, title, link) => {
+  const updateIdea = async (token, id, title, link, pile_id) => {
     const url = `${BASE_URL}/idea/${id}`;
     const body = {
+      pile_id,
       link,
       title
     };
@@ -309,27 +325,15 @@ const ApiProvider = ({children}) => {
       'Authorization': 'Bearer ' + token
     }
 
-    const body = {
-      'file': file,
-      'terst': 'test'
-    }
-
     const options = {
       method: 'POST',
       headers: myHeaders,
-      body: body,
+      body: file,
       redirect: 'follow',
     };
     const response = await fetch(url, options);
     const upLoadedFile = await response.json();
-    return upLoadedFile;
-    /* const config = {
-      headers: { Authorization: `Bearer ${token}` }
-    };
-    const bodyParameters = {
-      file: file
-    };
-    const result = await axios.post(`${BASE_URL}/file_upload`, bodyParameters, config);*/
+    return upLoadedFile.data.id;
   }
   
   const getAllColors = async (token, id) => {
@@ -387,6 +391,7 @@ const ApiProvider = ({children}) => {
       getAllColors,
       getAllProjects,
       getIdeaTypes,
+      getPileById,
       getProjectById,
       getProjectsByUserId,
       inviteToProject,

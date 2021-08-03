@@ -12,6 +12,8 @@ import {
 import { useApi, useAuth } from '../services';
 import { CgRename } from 'react-icons/cg';
 import Masonry from 'react-masonry-css';
+import * as Routes from '../routes';
+import { useHistory } from 'react-router-dom';
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -23,6 +25,7 @@ const ProjectPage = () => {
   const [ canEdit, setCanEdit ] = useState(false);
   const { addColor, addPile, canEditProject, getProjectById, getAllColors } = useApi();
   const { currentUser } = useAuth();
+  const history = useHistory();
 
   const initFetch = useCallback(
     () => {
@@ -32,7 +35,7 @@ const ProjectPage = () => {
           setCanEdit(true);
         } else {
           const result = await canEditProject(currentUser.token, id, currentUser.id);
-          console.log(result.data);
+          if(!result.success) history.push(Routes.PROJECTS);
           setCanEdit(result.data === 1);
         }
         console.log(temp.data.piles);

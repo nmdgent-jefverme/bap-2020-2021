@@ -7,6 +7,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    h3 {
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
     
     &__example {
       > span {

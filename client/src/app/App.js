@@ -6,6 +6,7 @@ import * as Routes from './routes';
 import {
   AddProjectPage,
   LoginPage,
+  PileDetailPage,
   ProfileEditPage,
   ProfilePage, 
   ProjectPage, 
@@ -42,6 +43,7 @@ const App = () => {
               <AuthRouteWithLayout exact path={Routes.PROJECTS} component={ProjectsPage}/>
               <AuthRouteWithLayout exact path={Routes.PROJECTS_CREATE} component={AddProjectPage}/>
               <AuthRouteWithLayout exact path={Routes.PROJECT_PAGE} component={ProjectPage}/>
+              <AuthRouteWithLayout exact path={Routes.PILE_DETAIL} component={PileDetailPage}/>
             </Switch>
           </Router>
         </ApiProvider>

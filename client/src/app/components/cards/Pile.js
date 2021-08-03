@@ -6,14 +6,18 @@ import { CgRename } from 'react-icons/cg';
 import { useApi, useAuth } from '../../services';
 import { IdeaCard } from '.';
 import AddIdeaCard from './AddIdeaCard';
+import { useHistory } from 'react-router-dom';
+import * as Routes from '../../routes';
 
 const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false}) => {
   const [ colors, setColors ] = useState();
   const [ selectedColor, setSelectedColor ] = useState(color);
   const [ newTitle, setNewTitle ] = useState(title);
   const [ dragging, setDragging ] = useState(false);
-  const { getAllColors, updatePile, removePile } = useApi();
+  const [ adding, setAdding ] = useState(false);
+  const { getAllColors, updateIdea, updatePile, removePile } = useApi();
   const { currentUser } = useAuth();
+  const history = useHistory();
 
   const initFetch = useCallback(() => {
     const fetchItems = async () => {
@@ -37,10 +41,23 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
     fetchData();
   }
 
+  const handleDragEnter = () => {
+    if(window.idea.pile_id !== id) setAdding(true);
+  }
+
+  const handleDragLeave = async () => {
+    const idea = window.idea;
+    if(window.idea.pile_id !== id && idea) {
+      const result = await updateIdea(currentUser.token, idea.id, idea.title, idea.link, id );
+      if (result.success) fetchData();
+    }
+    setAdding(false)
+  }
+
   return(
     <div className={`pile${dragging ? '__dragging' : ''}`} >
-      <Card extraClass={`pile--card`} onDragEnter={(e) => console.log(window)} onDragExit={() => setDragging(false)} style={{backgroundColor: color}}>
-        <h3>{title}</h3>
+      <Card extraClass={`pile--card`} onDragEnter={handleDragEnter} onDragExit={handleDragLeave} style={{backgroundColor: color}}>
+        <h3 onClick={() => history.push(Routes.PILE_DETAIL.replace(':id', id))}>{title}</h3>
         {
           canEdit &&
           <div className='pile--actions'>
@@ -58,6 +75,12 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
           </div>
         }
       </Card>
+        {
+          adding &&
+          <Card extraClass={`pile--card__example`} style={{backgroundColor: color}}>
+            <span>Laat los om aan deze stapel toe te voegen!</span>
+          </Card>
+        }
         {
           ideas.length > 0 ? 
             <>

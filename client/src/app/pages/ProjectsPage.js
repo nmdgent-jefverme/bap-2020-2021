@@ -76,7 +76,7 @@ const ProjectsPage = () => {
                   </PopupEdit>
                 </div>
                 <div className='projectspage--projectcard--info'>
-                  <p className='projectspage--projectcard--text'>Auteur: {project.user.name}</p>
+                  <p className='projectspage--projectcard--text'>Auteur: {project.project.author.name}</p>
                   <p className='projectspage--projectcard--text'>Laatste bewerking: {new Date(project.project.updated_at).toLocaleDateString()}</p>
                 </div>
               </Card>

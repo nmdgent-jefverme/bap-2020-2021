@@ -74,14 +74,14 @@
   }
 }
 
-input[type="file"] {
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+// input[type="file"] {
+//   position: absolute;
+//   left: 0;
+//   opacity: 0;
+//   top: 0;
+//   bottom: 0;
+//   width: 100%;
+// }
 
 .fileupload {
   &--label, &--label__error, &--label__draggin {

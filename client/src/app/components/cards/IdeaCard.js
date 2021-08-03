@@ -22,14 +22,13 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   const [ link, setLink ] = useState(idea.link);
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
-
   const handleRemove = async (id) => {
     await removeIdea(currentUser.token, id);
     fetchData();
   }
 
   const handleUpdate = async (id) => {
-    await updateIdea(currentUser.token, idea.id, title, link);
+    await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id);
     fetchData();
   }
 
@@ -38,7 +37,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   }
 
   return(
-    <Card extraClass={`pile--card`} onDragStart={(e) => {window.idea = idea; console.log(window)}} onDragEnd={() => console.log('Stopped')} style={{backgroundColor: color}} >
+    <Card extraClass={`pile--card`} onDragStart={(e) => window.idea = idea} canDrag={canEdit} style={{backgroundColor: color}} >
       <div className='w-100 d-flex flex-column align-items-start'>
         <div className='pile--card--header'>
           <p className="pile--card--header--title">{idea.title}</p>

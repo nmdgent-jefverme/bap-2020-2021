@@ -3,6 +3,8 @@ import Card from './Card';
 import { useApi, useAuth } from '../../services';
 import { Button, Errors, TextInput } from '../forms';
 import { DefaultEditor } from 'react-simple-wysiwyg';
+import { PopupRecord } from '../popup';
+import { IoMdSave } from 'react-icons/io';
 
 const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   const [ newIdea, setNewIdea ] = useState('');
@@ -48,7 +50,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
             <DefaultEditor value={newIdea} onChange={(ev) => setNewIdea(ev.target.value)} />
           </div>
         }
-        <Button placeholder='Opslaan' size='medium' onClick={handleAdd} />
+        <Button placeholder={<IoMdSave />} size='medium' onClick={handleAdd} />
       </div>
       {
         displayErrors && <Errors errors={errors} />

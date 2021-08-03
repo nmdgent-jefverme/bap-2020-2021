@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Button } from '../forms';
+import { Button, Message } from '../forms';
 import { FiEdit } from 'react-icons/fi';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 const PopupEdit = ({title, className, onSubmit, children, buttonDisabled}) => {
   const [ show, setShow ] = useState(false);
+  const [ displayMessage, setDisplayMessage ] = useState(false);
+  const [ displayMessageAnimation, setDisplayMessageAnimation ] = useState(false);
 
   const handleClose = () => setShow(false);;
   const handleShow = () => setShow(true);
 
   const submitFuncion = async () => {
     await onSubmit();
+    setDisplayMessage(true);
+    setDisplayMessageAnimation(true);
+    window.setTimeout(() => {
+      setDisplayMessageAnimation(false);
+    }, 2000)
+    window.setTimeout(() => {
+      setDisplayMessage(false);
+    }, 4000)
     handleClose();
   }
 
@@ -28,6 +39,16 @@ const PopupEdit = ({title, className, onSubmit, children, buttonDisabled}) => {
           <Button onClick={submitFuncion} placeholder='Opslaan' disabled={buttonDisabled} />
         </Modal.Footer>
       </Modal>
+      <div>
+        {
+          displayMessage && 
+          <Message 
+            message={`${title} bijgewerkt`}
+            display={displayMessageAnimation}
+            icon={<span className='success'><AiOutlineCheckCircle /></span>}
+          />
+        }
+      </div>
     </>
   )
 }
