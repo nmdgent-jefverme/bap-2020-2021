@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFileIdToUser extends Migration
+class AddStartPointToProjectIdea extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddFileIdToUser extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('profile_picture');
+        Schema::table('project_ideas', function (Blueprint $table) {
+            $table->integer('start_point');
         });
     }
 
@@ -25,8 +25,8 @@ class AddFileIdToUser extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('profile_picture');
+        Schema::table('project_ideas', function (Blueprint $table) {
+            $table->dropColumn('start_point');
         });
     }
 }

@@ -38,6 +38,7 @@ class IdeaController extends BaseController
             'link' => 'required',
             'title' => 'required',
             'pile_id' => 'required',
+            'start_point' => 'required'
         ]);
 
         if($validator->fails()){
@@ -51,6 +52,7 @@ class IdeaController extends BaseController
         $idea->title = $r->title;
         $idea->link = $r->link;
         $idea->pile_id = $r->pile_id;
+        $idea->start_point = $r->start_point;
         $idea->save();
         return $this->sendResponse($idea, 'Idea updated successfully.');
     }
