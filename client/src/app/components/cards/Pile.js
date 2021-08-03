@@ -15,7 +15,7 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
   const [ newTitle, setNewTitle ] = useState(title);
   const [ dragging, setDragging ] = useState(false);
   const [ adding, setAdding ] = useState(false);
-  const { getAllColors, updateIdea, updatePile, removePile } = useApi();
+  const { addColor, getAllColors, updateIdea, updatePile, removePile } = useApi();
   const { currentUser } = useAuth();
   const history = useHistory();
 
@@ -32,7 +32,13 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
   }, [initFetch]);
 
   const handleUpdate = async () => {
-    await updatePile(currentUser.token, id, newTitle, selectedColor);
+    console.log(selectedColor);
+    let colorId = selectedColor;
+    if(isNaN(selectedColor)) {
+      const newColor = await addColor(currentUser.token, selectedColor, currentUser.id);
+      colorId = newColor.data.id;
+    }
+    await updatePile(currentUser.token, id, newTitle, colorId);
     fetchData();
   }
 

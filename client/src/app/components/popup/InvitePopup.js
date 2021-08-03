@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button, Errors, Message, TextInput } from '../forms';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { useApi, useAuth } from '../../services';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { MdDelete } from 'react-icons/md';
 
-const PopupInvite = ({projectId, onChange}) => {
+const PopupInvite = ({projectId}) => {
   const [ show, setShow ] = useState(false);
   const [ email, setEmail ] = useState('');
   const [ displayErrors, setDisplayErrors ] = useState(false);
   const [ errors, setErrors ] = useState([]);
   const [ role, setRole ] = useState(0);
   const [ displayMessage, setDisplayMessage ] = useState(false);
+  const [ users, setUsers ] = useState();
   const [ displayMessageAnimation, setDisplayMessageAnimation ] = useState(false);
 
-  const { inviteToProject } = useApi();
+  const { inviteToProject, usersInProject } = useApi();
   const { currentUser } = useAuth();
+
+  const initFetch = useCallback(
+    () => {
+      const fetchItems = async () => {
+        const tempUsers = await usersInProject(currentUser.token, projectId);
+        setUsers(tempUsers.data);
+      }
+      fetchItems();
+    },
+    [currentUser, usersInProject, projectId],
+  );
+  
+  useEffect(() => {
+		initFetch();
+  }, [initFetch]);
 
   const handleClose = () => setShow(false);;
   const handleShow = () => setShow(true);
@@ -73,6 +90,21 @@ const PopupInvite = ({projectId, onChange}) => {
             <option value='1'>Bewerken</option>
             <option value='2'>Bekijken</option>
           </select>
+          <div className='w-100 d-flex flex-column'>
+            <p className='pb-2 underline'>Gebruikers in dit project:</p>
+            {
+              !!users && users.length > 0 && users.map((user, key) => {
+                if(user.user_id !== currentUser.id) {
+                  return(
+                    <div key={key} className='p-1 d-flex justify-content-between border rounded border-dark'>
+                      <p>{user.user.name}</p>
+                      <MdDelete />
+                    </div>
+                  )
+                }
+              })
+            }
+          </div>
           {
             displayErrors && <Errors errors={errors} />
           }

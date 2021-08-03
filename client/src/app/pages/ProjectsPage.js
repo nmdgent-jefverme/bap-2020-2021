@@ -68,12 +68,15 @@ const ProjectsPage = () => {
               <Card key={key} extraClass='projectspage--projectcard'>
                 <div className='d-flex align-items-center'>
                   <Link to={Routes.PROJECT_PAGE.replace(':id', project.project_id)}><h3>{project.project.title}</h3></Link>
-                  <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} buttonDisabled={displayError} >
-                    <TextInput placeholder='Titel project' defaultValue={project.project.title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
-                    {
-                      displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
-                    }
-                  </PopupEdit>
+                  {
+                    project.project.author_id === currentUser.id &&
+                    <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} buttonDisabled={displayError} >
+                      <TextInput placeholder='Titel project' defaultValue={project.project.title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
+                      {
+                        displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
+                      }
+                    </PopupEdit>
+                  }
                 </div>
                 <div className='projectspage--projectcard--info'>
                   <p className='projectspage--projectcard--text'>Auteur: {project.project.author.name}</p>

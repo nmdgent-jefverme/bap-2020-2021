@@ -150,6 +150,23 @@ const ApiProvider = ({children}) => {
     return result;
   }
 
+  const usersInProject  = async (token, projectId) => {
+    const url = `${BASE_URL}/project/users/${projectId}`;
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    return result;
+  }
+
   /**
    * Pile functions
   */
@@ -401,7 +418,8 @@ const ApiProvider = ({children}) => {
       uploadFile,
       updateIdea,
       updatePile,
-      updateProject
+      updateProject,
+      usersInProject
     }}>
       {children}
     </ApiContext.Provider>
