@@ -3,7 +3,7 @@
     display: flex;
   }
 
-  &--image {
+  &--image, &--picture {
     &-container {
       padding: $gutter-small;
       border-right: 3px solid $color-secondary;
@@ -12,9 +12,16 @@
       align-items: center;
       justify-content: center;
     }
-
+    border-radius: 100%;
     width: 50%;
     padding: $gutter-small;
+  }
+
+  &--picture {
+    width: 9rem;
+    height: 9rem;
+    object-fit: cover;
+    object-position: center;
   }
 
   &--info-container {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\api\v1\BaseController as BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ class LoginController extends BaseController
             $success['name'] =  $user->name;
             $success['email'] =  $user->email;
             $success['instruments'] =  $user->instruments;
+            $success['picture'] = File::where('id', $user->profile_picture)->first();
 
             return $this->sendResponse($success, 'User login successfully.');
         }
@@ -56,6 +58,7 @@ class LoginController extends BaseController
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
         $success['instruments'] =  $user->instruments;
+        $success['picture'] = File::where('id', $user->profile_picture)->first();
 
         return $this->sendResponse($success, 'User register successfully.');
     }

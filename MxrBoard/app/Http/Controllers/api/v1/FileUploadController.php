@@ -26,13 +26,16 @@ class FileUploadController extends BaseController {
             return $this->sendError('Validation Error.', $validator->errors(), 400);
          }
 
-        $file = $request->file;
-        $path = $file->storeAs('profilepictures', $file->getClientOriginalName());
-        $name = $file->getClientOriginalName();
-        $save = new File();
-        $save->name = $name;
-        $save->path= $path;
-        $save->save();
-        return $this->sendResponse($save, 'File uploaded');
+         if ($file = $request->file('file')) {
+            $path = $file->store('public/files');
+
+            //store your file into directory and db
+            $save = new File();
+            $save->name = $file->hashName();
+            $save->path= $path;
+            $save->save();
+
+            return $this->sendResponse($save, 'File uploaded');
+        }
     }
 }

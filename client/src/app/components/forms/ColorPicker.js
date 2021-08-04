@@ -25,7 +25,7 @@ const ColorPicker = ({colors, activeColor, setSelectedColor}) => {
         <div>
         </div>
       </div>
-      <HuePicker color={newColor} onChange={(color) => {setNewColor(color.hex); setSelectedColor(newColor)}} />
+      <HuePicker color={newColor} onChange={(color) => {setNewColor(color.hex); setSelectedColor(color.hex);}} />
     </div>
   )
 }

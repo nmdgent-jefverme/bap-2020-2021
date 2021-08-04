@@ -6,6 +6,7 @@ import {
   Card,
   Navigation,
   PageTitle,
+  PopupEdit,
 } from '../components';
 import * as Routes from '../routes';
 
@@ -13,9 +14,10 @@ import profileIcon from '../assets/profileIcon.png';
 import { useApi, useAuth } from '../services';
 
 const ProfilePage = () => {
-  const { currentUser } = useAuth();
-  const { getProjectsByUserId } = useApi();
-  const [ userProjects, setUserProjects ] = useState()
+  const { currentUser, updateUserProfilePicture } = useAuth();
+  const { getProjectsByUserId, uploadFile } = useApi();
+  const [ userProjects, setUserProjects ] = useState();
+  const [ file, setFile ] = useState();
 
   const initFetch = useCallback(
     () => {
@@ -35,6 +37,20 @@ const ProfilePage = () => {
 		initFetch();
   }, [initFetch]);
 
+  const handleUpload = async () => {
+    const data = new FormData();
+    data.append('file', file);
+    const id = await uploadFile(data, currentUser.token);
+    if(id !== null) {
+      const result = await updateUserProfilePicture(id);
+      if (result.success) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   return(
     <>
       <Navigation activePage='profile'/>
@@ -42,7 +58,18 @@ const ProfilePage = () => {
       <div className='content'>
         <Card extraClass='profilepage--profilecard'>
           <div className='profilepage--image-container'>
-            <img src={profileIcon} alt='Profile icon' className='profilepage--image' />
+            {
+              currentUser.picture ?
+              <img src={`http://localhost:8000/storage/files/${currentUser.picture.name}`} alt='Profile icon' className='profilepage--picture' />
+              :
+              <img src={profileIcon} alt='Profile icon' className='profilepage--image' />
+            }
+            <PopupEdit
+              onSubmit={handleUpload}
+              title='Profielfoto'
+            >
+              <input type='file' onChange={(ev) => setFile(ev.target.files[0])}/>
+            </PopupEdit>
           </div>
           <div className='profilepage--info-container'>
             <div className='d-flex align-items-center justify-content-between'>

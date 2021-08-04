@@ -17,6 +17,7 @@ import {
 } from '../../utilities';
 
 const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
+  console.log(idea);
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
@@ -111,7 +112,12 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) &&
           <div dangerouslySetInnerHTML={createMarkup()} />
         }
-        <p className='pile--card--author'>Toegevoegd door: <i>{idea.author.name}</i></p>
+        {
+          idea.author.picture ?
+          <p className='pile--card--author'><img src={`http://localhost:8000/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
+          :
+          <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
+        }
       </div>
     </Card>
   )

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\api\v1\BaseController as BaseController;
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +52,7 @@ class UserController extends BaseController
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
         $success['instruments'] =  $user->instruments;
-        $success['profile_picture'] =  $user->profile_picture;
+        $success['picture'] =  File::where('id', $request->fileId)->first();
 
         return $this->sendResponse($success, 'User updated successfully.');
     }

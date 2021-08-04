@@ -50,4 +50,8 @@ class User extends Authenticatable
     public function project () {
         return $this->hasMany(Project::class);
     }
+
+    public function picture () {
+        return $this->belongsTo(File::class, 'profile_picture');
+    }
 }

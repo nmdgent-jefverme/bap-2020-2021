@@ -85,6 +85,29 @@ const AuthProvider = ({children}) => {
     return user;
   }
 
+  const updateUserProfilePicture = async (fileId) => {
+    const url = `${BASE_URL}/user/edit_picture/${currentUser.id}`;
+    const body = {
+      fileId
+    };
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + currentUser.token
+    }
+    const options = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow'
+    };
+    const response = await fetch(`${url}`, options);
+    const user = await response.json();
+    updateUserObject(user);
+    return user;
+  }
+
   const updateUserObject = (user) => {
     const userObject = {
       id: user.data.id,
@@ -92,6 +115,7 @@ const AuthProvider = ({children}) => {
       name: user.data.name,
       instruments: user.data.instruments,
       token: user.data.token,
+      picture: user.data.picture
     };
     setCurrentUser(userObject);
     setUser(userObject);
@@ -109,7 +133,8 @@ const AuthProvider = ({children}) => {
       setCurrentUser,
       signIn,
       signOut,
-      updateUser
+      updateUser,
+      updateUserProfilePicture
     }} >
       {children}
     </AuthContext.Provider>
