@@ -30,8 +30,14 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   }
 
   const handleUpdate = async (id) => {
-    const [hours, minutes, seconds] = startPoint.split(':');
-    const totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+    let totalSeconds;
+    if(startPoint.length === 5) {
+      const [hours, minutes] = startPoint.split(':');
+      totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60;
+    } else {
+      const [hours, minutes, seconds] = startPoint.split(':');
+      totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
+    }
     await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id, totalSeconds);
     fetchData();
     return true;
