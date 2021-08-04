@@ -93,7 +93,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         {
           idea.file &&
           <video controls name='media' controlsList="nodownload">
-            <source src={`http://localhost:8000/storage/files/${idea.file.name}`} type="video/webm" />
+            <source src={`http://api.jefverme-cms.be/storage/files/${idea.file.name}`} type="video/webm" />
           </video>
         }
         {
@@ -132,7 +132,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         }
         {
           idea.author.picture ?
-          <p className='pile--card--author'><img src={`http://localhost:8000/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
+          <p className='pile--card--author'><img src={`http://api.jefverme-cms.be/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
           :
           <p className='pile--card--author'><div className='pile--card--author--initials'><span>{initials}</span></div></p>
         }
