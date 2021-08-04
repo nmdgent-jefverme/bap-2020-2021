@@ -41,7 +41,7 @@ Route::middleware('auth:api')->group( function () {
     Route::delete('projects/{project}', [ ProjectController::class, 'delete' ]);
     Route::get('/project/users/{project}', [ ProjectController::class, 'getUsersInProject' ]);
     Route::delete('/project/users/{project}', [ ProjectController::class, 'removeUserFromProject' ]);
-    Route::put('/project/users/{project}', [ ProjectController::class, 'updateUserRole' ]);
+    Route::post('/project/users', [ ProjectController::class, 'updateUserRole' ]);
 
     Route::get('/idea_types', [ IdeaTypeController::class, 'index' ]);
     Route::get('/colors', [ ColorsController::class, 'index' ]);

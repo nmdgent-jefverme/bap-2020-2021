@@ -131,7 +131,10 @@ const PopupInvite = ({projectId}) => {
                 if(user.user_id !== currentUser.id) {
                   return(
                     <div key={key} className='p-2 d-flex justify-content-between border rounded border-dark mb-2'>
-                      <p>{user.user.name}</p>
+                      <div className='d-flex flex-column align-items-start'>
+                        <p>{user.user.name}</p>
+                        <small className='font-italic pt-1'>{user.role === 1 ? 'Bewerken' : 'Bekijken'}</small>
+                      </div>
                       <div className='d-flex align-items-center'>
                         <PopupEdit
                           title={user.user.name}

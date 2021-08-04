@@ -187,11 +187,12 @@ const ApiProvider = ({children}) => {
     return result;
   }
 
-  const updateUserRole = async (token, projectId, user_id, new_role) => {
-    const url = `${BASE_URL}/project/users/${projectId}`;
+  const updateUserRole = async (token, project_id, user_id, new_role) => {
+    const url = `${BASE_URL}/project/users`;
     const body = {
       user_id,
-      new_role
+      new_role,
+      project_id
     }
     const myHeaders = {
       'Accept': 'application/json',
@@ -199,7 +200,7 @@ const ApiProvider = ({children}) => {
       'Authorization': 'Bearer ' + token
     }
     const options = {
-      method: 'PUT',
+      method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(body),
       redirect: 'follow',

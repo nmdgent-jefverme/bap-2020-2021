@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\Users_in_project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends BaseController
@@ -134,14 +135,17 @@ class ProjectController extends BaseController
         return $this->sendResponse([$r->user_id], 'user deleted from project');
     }
 
-    public function updateUserRole (Project $project, Request $r) {
-        $user = Users_in_project::where([
-            ['project_id', $project->id],
-            ['user_id', $r->user_id],
-        ])->first();
+    public function updateUserRole (Request $r) {
 
-        $user->role = $r->new_role;
-        $user->save();
+        // $user = Users_in_project::where('project_id', (int)$r->project_id)->where('user_id', (int)$r->user_id)->first();
+
+        // $user->role = (int)$r->new_role;
+        // $user->save();
+
+        $user = DB::table('users_in_projects')
+                ->where('project_id', (int)$r->project_id)
+                ->where('user_id', (int)$r->user_id)
+                ->update(['role' => (int)$r->new_role]);
         return $this->sendResponse($user, 'User role updated');
     }
 }
