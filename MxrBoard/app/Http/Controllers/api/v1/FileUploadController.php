@@ -19,7 +19,7 @@ class FileUploadController extends BaseController {
     public function upload(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'file'  => 'required|mimes:png,jpg,jpeg,gif|max:2305',
+            'file'  => 'required',
         ]);
 
         if($validator->fails()) {

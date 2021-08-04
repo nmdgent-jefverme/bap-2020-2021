@@ -15,7 +15,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   const { currentUser } = useAuth();
 
   const handleAdd = async () => {
-    const result = await addIdea(currentUser.token, project_id, 'Nieuw idee', newIdea, pile_id, currentUser.id);
+    const result = await addIdea(currentUser.token, project_id, 'Nieuw idee', newIdea, pile_id, currentUser.id, null);
     if (result.success) {
       setNewIdea('');
       setDisplayErrors(false);
@@ -38,7 +38,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   }
 
   return(
-    <Card extraClass={`d-flex flex-column pile--card`} style={{backgroundColor: color}} /*onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}*/ >
+    <Card extraClass={`d-flex flex-column pile--card addidea`} style={{backgroundColor: color}} /*onDragEnter={() => setDragging(true)} onDragExit={() => setDragging(false)}*/ >
       <div className={`d-flex ${showEditor ? 'pile--card--column' : 'align-items-center' } w-100`}>
         {
           !showEditor &&
@@ -50,6 +50,11 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
             <DefaultEditor value={newIdea} onChange={(ev) => setNewIdea(ev.target.value)} />
           </div>
         }
+        <PopupRecord
+          project_id={project_id}
+          pileId={pile_id}
+          fetchData={fetchData}
+        />
         <Button placeholder={<IoMdSave />} size='medium' onClick={handleAdd} />
       </div>
       {

@@ -12,11 +12,15 @@ class Project_idea extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'link', 'idea_type_id', 'title', 'pile_id', 'author_id', 'start_point'
+        'link', 'idea_type_id', 'title', 'pile_id', 'author_id', 'start_point', 'file_id'
     ];
 
     public function idea_type () {
         return $this->belongsTo(Idea_type::class);
+    }
+
+    public function file () {
+        return $this->belongsTo(File::class, 'file_id');
     }
 
     public function project () {

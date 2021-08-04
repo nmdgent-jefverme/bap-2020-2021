@@ -17,17 +17,18 @@ class IdeaController extends BaseController
             'link' => 'required',
             'pile_id' => 'required|exists:App\Models\Pile,id',
             'title' => 'required',
-            'author_id' => 'required'
+            'author_id' => 'required',
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors(), 400);
         }
         $newIdea = new Project_idea([
-            'pile_id' => $r->pile_id,
+            'pile_id' => (int)$r->pile_id,
             'link' => $r->link,
             'title' => $r->title,
-            'author_id' => $r->author_id
+            'author_id' => (int)$r->author_id,
+            'file_id' => (int)$r->file_id
         ]);
         $newIdea->save();
         return $this->sendResponse($newIdea, 'Idea created successfully.');

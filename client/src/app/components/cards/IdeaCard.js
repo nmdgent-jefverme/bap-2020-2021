@@ -17,14 +17,15 @@ import {
 } from '../../utilities';
 
 const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
-  console.log(idea);
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
   const [ link, setLink ] = useState(idea.link);
   const [ startPoint, setStartPoint ] = useState('00:00:00');
+  const initials = idea.author.name.split(" ").map((n)=>n[0]).join("");
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
+
   const handleRemove = async (id) => {
     await removeIdea(currentUser.token, id);
     fetchData();
@@ -48,6 +49,12 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
     return {__html: idea.link};
   }
 
+  const getInitials = () => {
+    const strings = idea.author.name.split(' ');
+    console.log(strings);
+    return idea.author.name;
+  }
+
   return(
     <Card extraClass={`pile--card`} onDragStart={(e) => window.idea = idea} canDrag={canEdit} style={{backgroundColor: color}} >
       <div className='w-100 d-flex flex-column align-items-start'>
@@ -65,7 +72,12 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
                     <DefaultEditor value={link} onChange={(ev) => setLink(ev.target.value)} />
                   </div>
                   :
-                  <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
+                  <>
+                  {
+                    !idea.file &&
+                    <TextInput defaultValue={link} icon={<AiOutlineLink />} onChange={(ev) => setLink(ev.target.value)} />
+                  }
+                  </>
                 }
                 {
                   validateYouTubeUrl(idea.link) && 
@@ -79,7 +91,13 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           }
         </div>
         {
-          validateYouTubeUrl(idea.link) &&
+          idea.file &&
+          <video controls name='media' controlsList="nodownload">
+            <source src={`http://localhost:8000/storage/files/${idea.file.name}`} type="video/webm" />
+          </video>
+        }
+        {
+          validateYouTubeUrl(idea.link) && !idea.file &&
           <ReactPlayer
             url={`${idea.link}${idea.start_point > 0 ? `&start=${idea.start_point}` : ''}`}
             width='100%'
@@ -91,14 +109,14 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           />
         }
         {
-          validateSpotifyUrl(idea.link) && 
+          validateSpotifyUrl(idea.link) && !idea.file &&
           <SpotifyPlayer
             token={localStorage.getItem('spotifyToken')}
             uris={[idea.link]}
           />
         }
         {
-          !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && isImage &&
+          !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && isImage && !idea.file &&
           <img
             src={idea.link}
             alt={`${idea.title}`}
@@ -106,17 +124,17 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           />
         }
         {
-          isValidURL(idea.link) && !isImage && !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
+          isValidURL(idea.link) && !isImage && !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !idea.file && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
         }
         {
-          !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) &&
+          !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) && !idea.file &&
           <div dangerouslySetInnerHTML={createMarkup()} />
         }
         {
           idea.author.picture ?
-          <p className='pile--card--author'><img src={`http://api.jefverme-cms.be/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
+          <p className='pile--card--author'><img src={`http://localhost:8000/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
           :
-          <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
+          <p className='pile--card--author'><div className='pile--card--author--initials'><span>{initials}</span></div></p>
         }
       </div>
     </Card>

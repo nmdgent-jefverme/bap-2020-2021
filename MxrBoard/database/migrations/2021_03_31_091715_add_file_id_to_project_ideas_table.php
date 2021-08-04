@@ -14,7 +14,7 @@ class AddFileIdToProjectIdeasTable extends Migration
     public function up()
     {
         Schema::table('project_ideas', function (Blueprint $table) {
-            $table->foreignId('file_id')->nullable()->constrained();
+            $table->integer('file_id')->nullable();
         });
     }
 

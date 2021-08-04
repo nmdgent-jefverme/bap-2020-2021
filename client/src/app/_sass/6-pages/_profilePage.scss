@@ -9,8 +9,12 @@
       border-right: 3px solid $color-secondary;
       width: 20vw;
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: center;
+
+      svg {
+        margin-top: 10px;
+      }
     }
     border-radius: 100%;
     width: 50%;

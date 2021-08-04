@@ -294,13 +294,14 @@ const ApiProvider = ({children}) => {
   /**
    * Idea functions
   */
-  const addIdea = async (token, project_id, title, link, pile_id, author_id) => {
+  const addIdea = async (token, project_id, title, link, pile_id, author_id, file_id) => {
     const url = `${BASE_URL}/projects/${project_id}/add_idea`;
     const body = {
       link,
       pile_id,
       title,
-      author_id
+      author_id,
+      file_id
     };
     const myHeaders = {
       'Accept': 'application/json',

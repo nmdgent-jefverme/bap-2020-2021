@@ -14,7 +14,7 @@ class AddProfilePictureToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('profile_picture')->constrained();
+            $table->integer('profile_picture');
         });
     }
 

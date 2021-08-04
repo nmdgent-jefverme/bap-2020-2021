@@ -5,10 +5,12 @@ import { RiRecordCircleLine } from 'react-icons/ri';
 import { ReactMic } from 'react-mic';
 import { useApi, useAuth } from '../../services';
 
-const PopupRecord = ({className, onSubmit, color}) => {
+const PopupRecord = ({project_id, pileId, color, fetchData}) => {
   const [ show, setShow ] = useState(false);
   const [ recording, setRecording ] = useState(false);
-  const { uploadFile } = useApi();
+  const [ fileObject, setFile ] = useState();
+  const [ recordBtn, setRecordBtn ] = useState(true);
+  const { uploadFile, addIdea } = useApi();
   const { currentUser } = useAuth();
 
   const handleClose = () => setShow(false);
@@ -16,13 +18,19 @@ const PopupRecord = ({className, onSubmit, color}) => {
 
   const handleUpload = async (blob) => {
     const data = new FormData();
-    data.append('file', blob.blobURL);
-    await uploadFile(data, currentUser.token);
+    const file = new File([fileObject], "newSong", {lastModified: new Date().toISOString(), type: fileObject.type});
+    data.append('file', file);
+    const fileId = await uploadFile(data, currentUser.token);
+    const result = await addIdea(currentUser.token, project_id, `Opname ${new Date().toLocaleDateString()}`, false, pileId, currentUser.id, fileId);
+    if (result.success) {
+      fetchData();
+      handleClose();
+    }
   }
 
   return(
     <>
-      <div onClick={handleShow}> 
+      <div onClick={handleShow} className='popuprecord--button'> 
         <RiRecordCircleLine />
       </div>
       <Modal show={show} onHide={handleClose} centered>
@@ -33,13 +41,21 @@ const PopupRecord = ({className, onSubmit, color}) => {
           <ReactMic 
             record={recording}
             className="w-100"
-            onStop={(ev) => handleUpload(ev)}
+            onStop={(ev) => {
+              setRecordBtn(false);
+              setFile(ev.blob)
+            }}
             strokeColor="#000000"
             backgroundColor={color}
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button placeholder='Opnemen' size='medium' onClick={() => setRecording(!recording)} />
+          {
+            recordBtn ?
+            <Button placeholder={recording ? 'Stoppen' : 'Opnemen'} size='medium' onClick={() => setRecording(!recording)} />
+            :
+            <Button placeholder='Opslaan' size='medium' onClick={handleUpload} />
+          }
         </Modal.Footer>
       </Modal>
     </>
