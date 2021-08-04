@@ -125,4 +125,12 @@ class ProjectController extends BaseController
         $users = Users_in_project::where('project_id', $project->id)->with('user')->get();
         return $this->sendResponse($users, 'users found');
     }
+
+    public function removeUserFromProject (Project $project, Request $r) {
+        Users_in_project::where([
+            ['project_id', $project->id],
+            ['user_id', $r->user_id],
+        ])->delete();
+        return $this->sendResponse([$r->user_id], 'user deleted from project');
+    }
 }

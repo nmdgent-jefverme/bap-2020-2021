@@ -167,6 +167,28 @@ const ApiProvider = ({children}) => {
     return result;
   }
 
+  const removeUserFromProject = async (token, projectId, user_id) => {
+    const url = `${BASE_URL}/project/users/${projectId}`;
+    const body = {
+      user_id
+    }
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow',
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    console.log(result);
+    return result;
+  }
+
   /**
    * Pile functions
   */
@@ -419,7 +441,8 @@ const ApiProvider = ({children}) => {
       updateIdea,
       updatePile,
       updateProject,
-      usersInProject
+      usersInProject,
+      removeUserFromProject
     }}>
       {children}
     </ApiContext.Provider>

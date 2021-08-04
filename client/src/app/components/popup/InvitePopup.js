@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { Button, Errors, Message, TextInput } from '../forms';
+import PopupDelete from './PopupDelete';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { useApi, useAuth } from '../../services';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
+import PopupEdit from './PopupEdit';
 
 const PopupInvite = ({projectId}) => {
   const [ show, setShow ] = useState(false);
@@ -16,7 +18,7 @@ const PopupInvite = ({projectId}) => {
   const [ users, setUsers ] = useState();
   const [ displayMessageAnimation, setDisplayMessageAnimation ] = useState(false);
 
-  const { inviteToProject, usersInProject } = useApi();
+  const { inviteToProject, usersInProject, removeUserFromProject } = useApi();
   const { currentUser } = useAuth();
 
   const initFetch = useCallback(
@@ -69,9 +71,15 @@ const PopupInvite = ({projectId}) => {
         window.setTimeout(() => {
           setDisplayMessage(false);
         }, 4000)
+        initFetch();
         handleClose();
       }
     }
+  }
+
+  const handleDelete = async (id) => {
+    const result = await removeUserFromProject(currentUser.token, projectId, id);
+    if (result.success) initFetch();
   }
 
   return(
@@ -96,9 +104,15 @@ const PopupInvite = ({projectId}) => {
               !!users && users.length > 0 && users.map((user, key) => {
                 if(user.user_id !== currentUser.id) {
                   return(
-                    <div key={key} className='p-1 d-flex justify-content-between border rounded border-dark'>
+                    <div key={key} className='p-2 d-flex justify-content-between border rounded border-dark'>
                       <p>{user.user.name}</p>
-                      <MdDelete />
+                      <div className='d-flex align-items-center'>
+                        <PopupEdit/>
+                        <PopupDelete
+                          title={`${user.user.name} verwijderen uit project?`}
+                          onSubmit={() => handleDelete(user.user_id)}
+                        />
+                      </div>
                     </div>
                   )
                 }
