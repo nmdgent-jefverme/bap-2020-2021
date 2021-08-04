@@ -87,7 +87,7 @@ const ProjectPage = () => {
         />
       }
       <div className='content'>
-        <div className='projectpage' onDrop={() => console.log('Dropping')}>
+        <div className='projectpage'>
           {
             canEdit && 
             <PopupAdd 

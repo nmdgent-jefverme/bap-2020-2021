@@ -42,6 +42,7 @@ const ProjectsPage = () => {
   const handleUpdate = async (id, ev) => {
     await updateProject(currentUser.token, id, title);
     initFetch();
+    return true;
   }
 
   useEffect(() => {

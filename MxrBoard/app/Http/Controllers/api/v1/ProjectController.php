@@ -133,4 +133,15 @@ class ProjectController extends BaseController
         ])->delete();
         return $this->sendResponse([$r->user_id], 'user deleted from project');
     }
+
+    public function updateUserRole (Project $project, Request $r) {
+        $user = Users_in_project::where([
+            ['project_id', $project->id],
+            ['user_id', $r->user_id],
+        ])->first();
+
+        $user->role = $r->new_role;
+        $user->save();
+        return $this->sendResponse($user, 'User role updated');
+    }
 }

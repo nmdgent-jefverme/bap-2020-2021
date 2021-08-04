@@ -129,7 +129,6 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const project = await response.json();
-    console.log(project);
     return project;
   }
 
@@ -185,7 +184,28 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const result = await response.json();
-    console.log(result);
+    return result;
+  }
+
+  const updateUserRole = async (token, projectId, user_id, new_role) => {
+    const url = `${BASE_URL}/project/users/${projectId}`;
+    const body = {
+      user_id,
+      new_role
+    }
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'PUT',
+      headers: myHeaders,
+      body: JSON.stringify(body),
+      redirect: 'follow',
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
     return result;
   }
 
@@ -442,7 +462,8 @@ const ApiProvider = ({children}) => {
       updatePile,
       updateProject,
       usersInProject,
-      removeUserFromProject
+      removeUserFromProject,
+      updateUserRole
     }}>
       {children}
     </ApiContext.Provider>

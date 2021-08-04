@@ -15,7 +15,6 @@ const PopupRecord = ({className, onSubmit, color}) => {
   const handleShow = () => setShow(true);
 
   const handleUpload = async (blob) => {
-    console.log(blob);
     const data = new FormData();
     data.append('file', blob.blobURL);
     await uploadFile(data, currentUser.token);

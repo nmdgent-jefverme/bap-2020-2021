@@ -13,16 +13,18 @@ const PopupEdit = ({title, className, onSubmit, children, buttonDisabled}) => {
   const handleShow = () => setShow(true);
 
   const submitFuncion = async () => {
-    await onSubmit();
-    setDisplayMessage(true);
-    setDisplayMessageAnimation(true);
-    window.setTimeout(() => {
-      setDisplayMessageAnimation(false);
-    }, 2000)
-    window.setTimeout(() => {
-      setDisplayMessage(false);
-    }, 4000)
-    handleClose();
+    const result = await onSubmit();
+    if(result) {
+      setDisplayMessage(true);
+      setDisplayMessageAnimation(true);
+      window.setTimeout(() => {
+        setDisplayMessageAnimation(false);
+      }, 2000)
+      window.setTimeout(() => {
+        setDisplayMessage(false);
+      }, 4000)
+      handleClose();
+    }
   }
 
   return(

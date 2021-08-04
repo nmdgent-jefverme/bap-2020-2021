@@ -34,6 +34,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
     const totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
     await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id, totalSeconds);
     fetchData();
+    return true;
   }
 
   function createMarkup() {

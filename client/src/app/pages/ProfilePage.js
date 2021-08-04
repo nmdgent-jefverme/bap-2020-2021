@@ -6,7 +6,6 @@ import {
   Card,
   Navigation,
   PageTitle,
-  PopupEdit
 } from '../components';
 import * as Routes from '../routes';
 

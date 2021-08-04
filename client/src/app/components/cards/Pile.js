@@ -32,7 +32,6 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
   }, [initFetch]);
 
   const handleUpdate = async () => {
-    console.log(selectedColor);
     let colorId = selectedColor;
     if(isNaN(selectedColor)) {
       const newColor = await addColor(currentUser.token, selectedColor, currentUser.id);
@@ -40,6 +39,7 @@ const Pile = ({id, title, color, ideas, project_id, fetchData, canEdit = false})
     }
     await updatePile(currentUser.token, id, newTitle, colorId);
     fetchData();
+    return true;
   }
 
   const handleDelete = async () => {
