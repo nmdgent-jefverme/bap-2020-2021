@@ -60,7 +60,7 @@ const ProfilePage = () => {
           <div className='profilepage--image-container'>
             {
               currentUser.picture ?
-              <img src={`http://localhost:8000/storage/files/${currentUser.picture.name}`} alt='Profile icon' className='profilepage--picture' />
+              <img src={`http://api.jefverme-cms.be/storage/files/${currentUser.picture.name}`} alt='Profile icon' className='profilepage--picture' />
               :
               <img src={profileIcon} alt='Profile icon' className='profilepage--image' />
             }

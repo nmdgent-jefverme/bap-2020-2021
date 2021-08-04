@@ -114,7 +114,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         }
         {
           idea.author.picture ?
-          <p className='pile--card--author'><img src={`http://localhost:8000/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
+          <p className='pile--card--author'><img src={`http://api.jefverme-cms.be/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
           :
           <p className='pile--card--author'>Toegevoegd door: {idea.author.name}</p>
         }
