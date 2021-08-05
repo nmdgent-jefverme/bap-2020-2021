@@ -63,6 +63,7 @@ const PopupInvite = ({projectId}) => {
         setDisplayErrors(true);
         setErrors(['Gebruiker reeds toegevoegd']);
       } else {
+        setEmail('');
         setDisplayMessage(true);
         setDisplayMessageAnimation(true);
         window.setTimeout(() => {
