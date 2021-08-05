@@ -5,7 +5,7 @@ const useApi = () => useContext(ApiContext);
 
 const ApiProvider = ({children}) => {
   const mode = process.env.REACT_APP_MODE;
-  const BASE_URL = mode === 'local' ? '' : 'http://api.jefverme-cms.be/api';
+  const BASE_URL = mode === 'local' ? '' : 'https://api.jefverme-cms.be/api';
 
   /**
    * Project functions

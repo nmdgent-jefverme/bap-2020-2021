@@ -9,7 +9,7 @@ const AuthProvider = ({children}) => {
   const [ currentUser, setCurrentUser ] = useState(getUser());
 
   const mode = process.env.REACT_APP_MODE;
-  const BASE_URL = mode === 'local' ? '' : 'http://api.jefverme-cms.be/api';
+  const BASE_URL = mode === 'local' ? '' : 'https://api.jefverme-cms.be/api';
 
   const signIn = async (email, password) => {
     const url = `${BASE_URL}/user/login`;
