@@ -5,9 +5,11 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\User;
+use App\Mail\InivitedToProject;
 use App\Models\Users_in_project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends BaseController
@@ -106,6 +108,11 @@ class ProjectController extends BaseController
             'user_id' => $user->id,
             'role' => (int)$r->role
         ]);
+        Mail::to($user->email)->send(new InivitedToProject([
+            'name' => $user->name,
+            'projectName' => $project->title,
+            'projectUrl' => env('CLIENT_URL') . 'projects/' . $project->id
+        ]));
         $invite->save();
         return $this->sendResponse($invite, 'Inviting to project');
     }

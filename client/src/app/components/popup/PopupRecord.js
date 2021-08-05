@@ -24,6 +24,7 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
     const result = await addIdea(currentUser.token, project_id, `Opname ${new Date().toLocaleDateString()}`, false, pileId, currentUser.id, fileId);
     if (result.success) {
       fetchData();
+      setRecordBtn(true);
       handleClose();
     }
   }
