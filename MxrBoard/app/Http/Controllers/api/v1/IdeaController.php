@@ -28,7 +28,8 @@ class IdeaController extends BaseController
             'link' => $r->link,
             'title' => $r->title,
             'author_id' => (int)$r->author_id,
-            'file_id' => (int)$r->file_id
+            'file_id' => (int)$r->file_id,
+            'start_point' => (int)$r->start_point
         ]);
         $newIdea->save();
         return $this->sendResponse($newIdea, 'Idea created successfully.');

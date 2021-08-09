@@ -10,11 +10,25 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
   const [ recording, setRecording ] = useState(false);
   const [ fileObject, setFile ] = useState();
   const [ recordBtn, setRecordBtn ] = useState(true);
+  const [ canRecord, setCanRecord ] = useState(false);
   const { uploadFile, addIdea } = useApi();
   const { currentUser } = useAuth();
-
-  const handleClose = () => setShow(false);
+  window.alert = function() {};
+  const handleClose = () => {
+    setShow(false);
+    setRecordBtn(true);
+    setFile(null);
+  };
   const handleShow = () => setShow(true);
+
+  navigator.getUserMedia({audio:true}, 
+    function(stream) {
+        setCanRecord(true);
+    },
+    function(e) {
+      setCanRecord(false);
+    }
+  );
 
   const handleUpload = async (blob) => {
     const data = new FormData();
@@ -25,6 +39,7 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
     if (result.success) {
       fetchData();
       setRecordBtn(true);
+      setFile(null);
       handleClose();
     }
   }
@@ -39,23 +54,33 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
           <Modal.Title><h4>Audio opname</h4></Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ReactMic 
-            record={recording}
-            className="w-100"
-            onStop={(ev) => {
-              setRecordBtn(false);
-              setFile(ev.blob)
-            }}
-            strokeColor="#000000"
-            backgroundColor={color}
-          />
+          {
+            canRecord ?
+            <ReactMic 
+              record={recording}
+              className="w-100 border border-black rounded"
+              onStop={(ev) => {
+                setRecordBtn(false);
+                setFile(ev.blob)
+              }}
+              visualSetting='frequencyBars'
+              strokeColor={color}
+            />
+            :
+            <p>Geef toestemming voor het opnemen van geluid.</p>
+          }
         </Modal.Body>
         <Modal.Footer>
           {
-            recordBtn ?
-            <Button placeholder={recording ? 'Stoppen' : 'Opnemen'} size='medium' onClick={() => setRecording(!recording)} />
-            :
-            <Button placeholder='Opslaan' size='medium' onClick={handleUpload} />
+            canRecord && 
+            <>
+              {
+                recordBtn ?
+                <Button placeholder={recording ? 'Stoppen' : 'Opnemen'} size='medium' onClick={() => setRecording(!recording)} />
+                :
+                <Button placeholder='Opslaan' size='medium' onClick={handleUpload} />
+              }
+            </>
           }
         </Modal.Footer>
       </Modal>

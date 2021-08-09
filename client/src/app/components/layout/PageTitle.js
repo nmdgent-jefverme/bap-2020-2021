@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput } from '../forms';
 import { PopupInvite } from '../popup';
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { CgCloseO } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import * as Routes from '../../routes';
 
@@ -19,7 +19,7 @@ const PageTitle = ({title = '', info = false, author, date, inviteBtn = false, p
         closeBtn && 
         <div className='pagetitle--closebtn'>
           <Link to={Routes.PROJECT_PAGE.replace(':id', projectId)}>
-            <AiOutlineCloseCircle />
+            <CgCloseO />
           </Link>
         </div>
       }

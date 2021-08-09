@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class PileController extends BaseController
 {
     public function byId (Pile $pile) {
-        return $this->sendResponse(['pile' => Pile::where('id', $pile->id)->with('color')->first(), 'ideas' => Project_idea::where('pile_id', $pile->id)->with('author')->with('file')->get()], 'Pile fetched succesfully');
+        return $this->sendResponse(['pile' => Pile::where('id', $pile->id)->with('color')->first(), 'ideas' => Project_idea::where('pile_id', $pile->id)->with('author')->with('author.picture')->with('file')->get()], 'Pile fetched succesfully');
     }
     public function addPile ( Request $r ) {
         $validator = Validator::make($r->all(), [

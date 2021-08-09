@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
   Button,
-  ColorPicker,
   IdeaCard,
   Navigation, 
   PageTitle,
-  Pile,
   PopupAdd,
   TextInput,
 } from '../components';
