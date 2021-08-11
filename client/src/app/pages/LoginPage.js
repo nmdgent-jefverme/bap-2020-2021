@@ -27,8 +27,12 @@ const LoginPage = () => {
       setDisplayError(false);
       history.push(Routes.PROFILE);
     } else {
+      const temp = [];
       setDisplayError(true);
-      setErrors([result.data.error])
+      Object.keys(result.data).forEach((key) => {
+        temp.push(result.data[key]);
+      });
+      setErrors(temp);
     }
   }
 
