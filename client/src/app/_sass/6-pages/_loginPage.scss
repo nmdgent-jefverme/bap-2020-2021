@@ -50,11 +50,21 @@
     color: $color-secondary;
     font-weight: bold;
   }
+  &--formlogo {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 449px) {
   .loginpage {
     flex-direction: column-reverse;
+
+    &--formlogo {
+      display: block;
+      width: 30%;
+      margin: 0 auto;
+      padding-bottom: 10px;
+    }
 
     &--imagesection, &--formsection {
       background-color: $color-primary;
@@ -67,10 +77,11 @@
 
     &--imagesection {
       height: 35vh;
+      display: none;
     }
 
     &--formsection {
-      height: 65vh;
+      min-height: 65vh;
       background-color: white;
     }
 

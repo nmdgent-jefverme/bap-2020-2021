@@ -19,16 +19,17 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     const result = await register(name, email, password, passwordRepeat);
-    if(result.success) {
-      setDisplayError(false);
-      history.push(Routes.PROFILE)
-    } else {
+    console.log(result.success);
+    if(!result.success) {
       const temp = [];
       setDisplayError(true);
       Object.keys(result.data).forEach((key) => {
         temp.push(result.data[key][0]);
       });
       setErrors(temp);
+    } else {
+      setDisplayError(false);
+      history.push(Routes.PROFILE)
     }
   }
 
@@ -40,6 +41,7 @@ const RegisterPage = () => {
       </div>
       <div className='loginpage--formsection'>
         <div className='loginpage--form'>
+          <img src={Logo} alt='Logo' className='loginpage--formlogo'/>
           <h2 className='loginpage--title'>Registeren</h2>
           <TextInput placeholder='Naam' size='large' onChange={(ev) => setName(ev.target.value)} />
           <TextInput placeholder='Email' size='large' onChange={(ev) => setEmail(ev.target.value)} />

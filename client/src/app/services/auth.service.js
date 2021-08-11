@@ -56,7 +56,7 @@ const AuthProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const user = await response.json();
-    updateUserObject(user);
+    if (user.success) updateUserObject(user);
     return user;
   }
 
