@@ -6,12 +6,14 @@ import { DefaultEditor } from 'react-simple-wysiwyg';
 import { PopupRecord } from '../popup';
 import { IoMdSave } from 'react-icons/io';
 import { BiTime } from 'react-icons/bi';
+import { CgCloseO } from 'react-icons/cg';
 import { 
   validateYouTubeUrl,
 } from '../../utilities';
 
 const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   const [ newIdea, setNewIdea ] = useState('');
+  const [ title, setTitle ] = useState('Nieuw Idee');
   const [ displayErrors, setDisplayErrors ] = useState(false);
   const [ errors, setErrors ] = useState();
   const [ showEditor, setShowEditor ] = useState(false);
@@ -29,18 +31,19 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
       const [hours, minutes, seconds] = startPoint.split(':');
       totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
     }
-    const result = await addIdea(currentUser.token, project_id, 'Nieuw idee', newIdea, pile_id, currentUser.id, null, totalSeconds);
+    const result = await addIdea(currentUser.token, project_id, title, newIdea, pile_id, currentUser.id, null, totalSeconds);
     if (result.success) {
       setIsYoutube(false);
       setStartPoint('00:00:00');
       setNewIdea('');
+      setTitle('');
       setDisplayErrors(false);
       setErrors([]);
       setShowEditor(false);
       fetchData();
     } else {
       setDisplayErrors(true);
-      setErrors(['Title field is required']);
+      setErrors(['Title and content are required']);
       window.setTimeout(() => {
         setDisplayErrors(false);
       }, 1500);
@@ -51,12 +54,12 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
     if (validateYouTubeUrl(newIdea)) {
       setIsYoutube(true);
     }
-  }, [newIdea])
+  }, [newIdea, fetchData])
 
   const textInputClicked = () => {
     window.setTimeout(() => {
       setShowEditor(true);
-    }, 2000)
+    }, 1500)
   }
 
   return(
@@ -68,9 +71,15 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
         }
         {
           showEditor &&
-          <div style={{width: '100%', backgroundColor: 'white', borderRadius: '5px', marginBottom: '15px'}}>
+          <>
+          <div className='w-100 d-flex align-items-center'>
+            <TextInput placeholder='Titel Idee' size='medium' onChange={(ev) => setTitle(ev.target.value)} onClick={textInputClicked} defaultValue={title} />
+            <p className='ml-2 closeicon' onClick={() => setShowEditor(false)}><CgCloseO /></p>
+          </div>
+          <div className='w-100 mb-4 bg-white rounded mt-4'>
             <DefaultEditor value={newIdea} onChange={(ev) => setNewIdea(ev.target.value)} />
           </div>
+          </>
         }
         {
           isYoutube && showEditor && 

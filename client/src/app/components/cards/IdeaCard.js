@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Card from './Card';
 import ReactPlayer from 'react-player';
-import SpotifyPlayer from 'react-spotify-web-playback';
+import SpotifyPlayer from 'react-spotify-player';
 import { DefaultEditor } from 'react-simple-wysiwyg';
 import { CgRename } from 'react-icons/cg';
 import { AiOutlineLink } from 'react-icons/ai';
@@ -21,7 +21,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
   const [ isImage, setIsImage ] = useState(true);
   const [ title, setTitle ] = useState(idea.title);
   const [ link, setLink ] = useState(idea.link);
-  const [ startPoint, setStartPoint ] = useState('00:00:00');
+  const [ startPoint, setStartPoint ] = useState( idea.start_point === 0 ? '00:00:00' : new Date(idea.start_point * 1000).toISOString().substr(11, 8) );
   const initials = idea.author.name.split(" ").map((n)=>n[0]).join("");
   const { removeIdea, updateIdea } = useApi();
   const { currentUser } = useAuth();
@@ -30,6 +30,11 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
     await removeIdea(currentUser.token, id);
     fetchData();
   }
+
+  const size = {
+    width: '100%',
+    height: 250,
+  };
 
   const handleUpdate = async (id) => {
     let totalSeconds;
@@ -40,19 +45,17 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
       const [hours, minutes, seconds] = startPoint.split(':');
       totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+seconds);
     }
-    await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id, totalSeconds);
-    fetchData();
-    return true;
+    const result = await updateIdea(currentUser.token, idea.id, title, link, idea.pile_id, totalSeconds);
+    if (result.success) {
+      fetchData();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function createMarkup() {
     return {__html: idea.link};
-  }
-
-  const getInitials = () => {
-    const strings = idea.author.name.split(' ');
-    console.log(strings);
-    return idea.author.name;
   }
 
   return(
@@ -111,8 +114,9 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         {
           validateSpotifyUrl(idea.link) && !idea.file &&
           <SpotifyPlayer
-            token={localStorage.getItem('spotifyToken')}
-            uris={[idea.link]}
+            size={size}
+            uri={idea.link}
+            view='coverart'
           />
         }
         {

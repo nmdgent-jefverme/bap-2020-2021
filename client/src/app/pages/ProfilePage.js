@@ -4,6 +4,7 @@ import { FiEdit } from 'react-icons/fi';
 
 import {
   Card,
+  Errors,
   Navigation,
   PageTitle,
   PopupEdit,
@@ -17,7 +18,11 @@ const ProfilePage = () => {
   const { currentUser, updateUserProfilePicture } = useAuth();
   const { getProjectsByUserId, uploadFile } = useApi();
   const [ userProjects, setUserProjects ] = useState();
-  const [ file, setFile ] = useState();
+  const [ file, setFile ] = useState(false);
+  const [ errors, setErrors ] = useState();
+  const [ displayError, setDisplayError ] = useState(false);
+
+  const extentions = [ 'png', 'jpg', 'jpeg', 'gif' ];
 
   const initFetch = useCallback(
     () => {
@@ -38,15 +43,29 @@ const ProfilePage = () => {
   }, [initFetch]);
 
   const handleUpload = async () => {
-    const data = new FormData();
-    data.append('file', file);
-    const id = await uploadFile(data, currentUser.token);
-    if(id !== null) {
-      const result = await updateUserProfilePicture(id);
-      if (result.success) {
-        return true;
+    if(!file) {
+      setDisplayError(true);
+      setErrors([ 'File is required' ]);
+      return 1;
+    } else {
+      console.log(file.type.split('/').pop());
+      const extension = file.type.split('/').pop();
+      if (!extentions.includes(extension)) {
+        setDisplayError(true);
+        setErrors([ 'Wrong extention. Allowed extentions are: png, jpg, jpeg, gif' ]);
+        return 1;
       } else {
-        return false;
+        const data = new FormData();
+        data.append('file', file);
+        const id = await uploadFile(data, currentUser.token);
+        if(id !== null) {
+          const result = await updateUserProfilePicture(id);
+          if (result.success) {
+            return true;
+          } else {
+            return false;
+          }
+        }
       }
     }
   }
@@ -68,7 +87,12 @@ const ProfilePage = () => {
               onSubmit={handleUpload}
               title='Profielfoto'
             >
-              <input type='file' onChange={(ev) => setFile(ev.target.files[0])}/>
+              <input className='mb-4' type='file' onChange={(ev) => setFile(ev.target.files[0])}/>
+              <div className='w-75'>
+                {
+                  displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
+                }
+              </div>
             </PopupEdit>
           </div>
           <div className='profilepage--info-container'>

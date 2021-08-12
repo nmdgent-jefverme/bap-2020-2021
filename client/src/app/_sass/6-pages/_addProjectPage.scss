@@ -7,3 +7,9 @@
   justify-content: center;
   align-items: center;
 }
+
+@media screen and (max-width: 449px) {
+  .addproject {
+    width: 100%;
+  }
+}

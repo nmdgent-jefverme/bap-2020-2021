@@ -58,10 +58,10 @@ const PopupInvite = ({projectId}) => {
       const result = await inviteToProject(currentUser.token, projectId, email, role);
       if (!result.success && result.message === 'user not found') {
         setDisplayErrors(true);
-        setErrors(['Gebruiker niet gevonden']);
+        setErrors(['User not found']);
       } else if(!result.success && result.message === 'user already in project') {
         setDisplayErrors(true);
-        setErrors(['Gebruiker reeds toegevoegd']);
+        setErrors(['User already in project']);
       } else {
         setEmail('');
         setDisplayMessage(true);
@@ -102,7 +102,7 @@ const PopupInvite = ({projectId}) => {
         initFetch();
         return true;
       } else {
-        setErrors(['Er liep iets fout bij het updaten']);
+        setErrors(['Something went wrong updating']);
         setDisplayErrors(true);
         return false;
       }

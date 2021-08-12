@@ -40,22 +40,22 @@ const ProjectsPage = () => {
   }, [ initFetch ]);
 
   const handleUpdate = async (id, ev) => {
-    await updateProject(currentUser.token, id, title);
-    initFetch();
-    return true;
-  }
-
-  useEffect(() => {
-    if(title.length >= 0) {
-      if(title.trim() === '') {
-        setDisplayError(true);
-        setErrors(['The title field is required.'])
+    if(title.trim() === '') {
+      setDisplayError(true);
+      setErrors(['The title field is required.']);
+      return 1;
+    } else {
+      const result = await updateProject(currentUser.token, id, title);
+      setDisplayError(false);
+      setErrors([]);
+      if (result.success) {
+        initFetch();
+        return true;
       } else {
-        setDisplayError(false);
-        setErrors(null)
+        return false;
       }
     }
-  }, [ title ])
+  }
 
   return(
     <>
@@ -71,7 +71,7 @@ const ProjectsPage = () => {
                   <Link to={Routes.PROJECT_PAGE.replace(':id', project.project_id)}><h3>{project.project.title}</h3></Link>
                   {
                     project.project.author_id === currentUser.id &&
-                    <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} buttonDisabled={displayError} >
+                    <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} >
                       <TextInput placeholder='Titel project' defaultValue={project.project.title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
                       {
                         displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
