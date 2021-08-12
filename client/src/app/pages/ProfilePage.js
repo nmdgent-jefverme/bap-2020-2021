@@ -79,7 +79,7 @@ const ProfilePage = () => {
           <div className='profilepage--image-container'>
             {
               currentUser.picture ?
-              <img src={`https://api.jefverme-cms.be/storage/files/${currentUser.picture.name}`} alt='Profile icon' className='profilepage--picture' />
+              <img src={`${process.env.REACT_APP_FILE_URL}${currentUser.picture.name}`} alt='Profile icon' className='profilepage--picture' />
               :
               <img src={profileIcon} alt='Profile icon' className='profilepage--image' />
             }

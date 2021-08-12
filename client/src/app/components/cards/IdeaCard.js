@@ -96,7 +96,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         {
           idea.file &&
           <video controls name='media' controlsList="nodownload">
-            <source src={`https://api.jefverme-cms.be/storage/files/${idea.file.name}`} type="video/webm" />
+            <source src={`${process.env.REACT_APP_FILE_URL}${idea.file.name}`} type="video/webm" />
           </video>
         }
         {
@@ -124,11 +124,19 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
           <img
             src={idea.link}
             alt={`${idea.title}`}
-            onError={(ev) => setIsImage(false)}
+            onError={() => setIsImage(false)}
           />
         }
         {
-          isValidURL(idea.link) && !isImage && !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !idea.file && <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
+          isValidURL(idea.link) && !isImage && !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !idea.file && 
+          <>
+           {
+             idea.link.indexOf('<img src="') !== 0 ?
+             <a href={idea.link} target='_blank' rel='noreferrer'>{idea.link}</a>
+             :
+             <div dangerouslySetInnerHTML={createMarkup()} />
+           }
+          </>
         }
         {
           !validateSpotifyUrl(idea.link) && !validateYouTubeUrl(idea.link) && !isImage && !isValidURL(idea.link) && !idea.file &&
@@ -136,7 +144,7 @@ const IdeaCard = ({color, idea, fetchData, canEdit = false}) => {
         }
         {
           idea.author.picture ?
-          <p className='pile--card--author'><img src={`https://api.jefverme-cms.be/storage/files/${idea.author.picture.name}`} alt='user icon' /></p>
+          <p className='pile--card--author'><img src={`${process.env.REACT_APP_FILE_URL}${idea.author.picture.name}`} alt='user icon' /></p>
           :
           <p className='pile--card--author'><div className='pile--card--author--initials'><span>{initials}</span></div></p>
         }

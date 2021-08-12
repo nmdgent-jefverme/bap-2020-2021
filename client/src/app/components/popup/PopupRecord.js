@@ -8,7 +8,7 @@ import { useApi, useAuth } from '../../services';
 const PopupRecord = ({project_id, pileId, color, fetchData}) => {
   const [ show, setShow ] = useState(false);
   const [ recording, setRecording ] = useState(false);
-  const [ fileObject, setFile ] = useState();
+  const [ fileObject, setFile ] = useState(null);
   const [ recordBtn, setRecordBtn ] = useState(true);
   const [ canRecord, setCanRecord ] = useState(false);
   const { uploadFile, addIdea } = useApi();
@@ -32,7 +32,7 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
 
   const handleUpload = async (blob) => {
     const data = new FormData();
-    const file = new File([fileObject], "newSong", {lastModified: new Date().toISOString(), type: fileObject.type});
+    const file = new File([fileObject.blob], "newSong", {lastModified: new Date().toISOString(), type: fileObject.blob.type});
     data.append('file', file);
     const fileId = await uploadFile(data, currentUser.token);
     const result = await addIdea(currentUser.token, project_id, `Opname ${new Date().toLocaleDateString()}`, false, pileId, currentUser.id, fileId);
@@ -56,16 +56,25 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
         <Modal.Body>
           {
             canRecord ?
-            <ReactMic 
-              record={recording}
-              className="w-100 border border-black rounded"
-              onStop={(ev) => {
-                setRecordBtn(false);
-                setFile(ev.blob)
-              }}
-              visualSetting='frequencyBars'
-              strokeColor={color}
-            />
+            <>
+            {
+              fileObject === null ?
+                <ReactMic 
+                  record={recording}
+                  className="w-100 border border-black rounded"
+                  onStop={(ev) => {
+                    setRecordBtn(false);
+                    setFile(ev)
+                  }}
+                  visualSetting='frequencyBars'
+                  strokeColor={color}
+                />
+                :
+                <video controls name='media' controlsList="nodownload" style={{height: '3rem', width: '100%'}}>
+                  <source src={fileObject.blobURL} type="video/webm" />
+                </video>
+            }
+            </>
             :
             <p>Geef toestemming voor het opnemen van geluid.</p>
           }
@@ -78,7 +87,13 @@ const PopupRecord = ({project_id, pileId, color, fetchData}) => {
                 recordBtn ?
                 <Button placeholder={recording ? 'Stoppen' : 'Opnemen'} size='medium' onClick={() => setRecording(!recording)} />
                 :
-                <Button placeholder='Opslaan' size='medium' onClick={handleUpload} />
+                <div className='w-100 d-flex justify-content-between'>
+                  <Button placeholder='Opnieuw' size='medium' onClick={() => {
+                    setRecordBtn(true);
+                    setFile(null);
+                  }} />
+                  <Button placeholder='Opslaan' size='medium' onClick={handleUpload} />
+                </div>
               }
             </>
           }
