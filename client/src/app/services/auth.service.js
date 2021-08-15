@@ -60,12 +60,13 @@ const AuthProvider = ({children}) => {
     return user;
   }
 
-  const updateUser = async (userId, token, name, email, instruments) => {
+  const updateUser = async (userId, token, name, email, instruments, fileId) => {
     const url = `${BASE_URL}/user/edit/${userId}`;
     const body = {
       name,
       email,
-      instruments
+      instruments,
+      fileId
     };
 
     const myHeaders = {

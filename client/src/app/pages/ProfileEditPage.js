@@ -18,7 +18,7 @@ const ProfileEditPage = () => {
   let history = useHistory();
 
   const handleUpdate = async () => {
-    const result = await updateUser(currentUser.id, currentUser.token, newName, newEmail, newInstruments);
+    const result = await updateUser(currentUser.id, currentUser.token, newName, newEmail, newInstruments, currentUser.picture.id);
     if (result.success) {
       history.push(Routes.PROFILE)
     } else {

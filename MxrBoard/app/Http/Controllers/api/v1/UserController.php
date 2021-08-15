@@ -32,6 +32,7 @@ class UserController extends BaseController
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
         $success['instruments'] =  $user->instruments;
+        $success['picture'] =  File::where('id', $request->fileId)->first();
 
         return $this->sendResponse($success, 'User updated successfully.');
     }
