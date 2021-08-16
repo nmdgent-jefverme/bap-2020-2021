@@ -36,6 +36,7 @@ Route::middleware('auth:api')->group( function () {
     Route::get('/projects', [ ProjectController::class, 'index' ]);
     Route::post('/projects', [ ProjectController::class, 'createProject' ]);
     Route::get('/projects/{project}', [ ProjectController::class, 'byId' ]);
+    Route::delete('/projects/{project}', [ ProjectController::class, 'deleteProject' ]);
     Route::post('/projects/{project}', [ ProjectController::class, 'updateProject' ]);
     Route::post('/projects/{project}/invite', [ ProjectController::class, 'invite' ]);
     Route::delete('projects/{project}', [ ProjectController::class, 'delete' ]);

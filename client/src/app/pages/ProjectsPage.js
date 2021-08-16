@@ -8,19 +8,27 @@ import {
   Button,
   Card,
   Errors,
+  Message,
   Navigation,
   PageTitle,
+  PopupDelete,
   PopupEdit,
   TextInput
 } from '../components';
 import { useApi, useAuth } from '../services';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { CgCloseO } from 'react-icons/cg';
 
 const ProjectsPage = () => {
   const [ projects, setProjects ] = useState();
   const [ title, setTitle ] = useState(false);
   const [ errors, setErrors ] = useState();
   const [ displayError, setDisplayError ] = useState(false);
-  const { getProjectsByUserId, updateProject } = useApi();
+  const [ displayMessage, setDisplayMessage ] = useState(false);
+  const [ displayMessageAnimation, setDisplayMessageAnimation ] = useState(false);
+  const [ message, setMessage ] = useState('');
+  const [ icon, setIcon ] = useState();
+  const { getProjectsByUserId, updateProject, removeProject } = useApi();
   const { currentUser } = useAuth();
   let history = useHistory();
 
@@ -57,6 +65,26 @@ const ProjectsPage = () => {
     }
   }
 
+  const handleRemove = async (id) => {
+    const result = await removeProject(currentUser.token, id);
+    if (result.success) {
+      setMessage('Project verwijderd');
+      setIcon(<span className='success'><AiOutlineCheckCircle /></span>);
+      initFetch();
+    } else {
+      setMessage('Fout bij verwijderen');
+      setIcon(<span className='error'><CgCloseO /></span>);
+    }
+    setDisplayMessage(true);
+    setDisplayMessageAnimation(true);
+    window.setTimeout(() => {
+      setDisplayMessageAnimation(false);
+    }, 2000)
+    window.setTimeout(() => {
+      setDisplayMessage(false);
+    }, 4000)
+  }
+
   return(
     <>
       <Navigation activePage='projects'/>
@@ -71,12 +99,15 @@ const ProjectsPage = () => {
                   <Link to={Routes.PROJECT_PAGE.replace(':id', project.project_id)}><h3>{project.project.title}</h3></Link>
                   {
                     project.project.author_id === currentUser.id &&
-                    <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} >
-                      <TextInput placeholder='Titel project' defaultValue={project.project.title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
-                      {
-                        displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
-                      }
-                    </PopupEdit>
+                    <div className='ml-4'>
+                      <PopupDelete title={`${project.project.title} verwijderen?`} onSubmit={() => handleRemove(project.project_id)}/>
+                      <PopupEdit title={project.project.title} className='projectspage--projectcard--icon' onSubmit={(ev) => handleUpdate(project.project_id, ev)} >
+                        <TextInput placeholder='Titel project' defaultValue={project.project.title} icon={<CgRename />} onChange={(ev) => setTitle(ev.target.value)} />
+                        {
+                          displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
+                        }
+                      </PopupEdit>
+                    </div>
                   }
                 </div>
                 <div className='projectspage--projectcard--info'>
@@ -87,6 +118,16 @@ const ProjectsPage = () => {
             )
           }
         </div>
+      </div>
+      <div>
+        {
+          displayMessage && 
+          <Message 
+            message={message}
+            display={displayMessageAnimation}
+            icon={icon}
+          />
+        }
       </div>
     </>
   )

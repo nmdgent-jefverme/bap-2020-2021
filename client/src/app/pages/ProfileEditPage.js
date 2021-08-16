@@ -4,7 +4,8 @@ import { useHistory } from 'react-router';
 
 import * as Routes from '../routes';
 import { useAuth } from '../services';
-import { loginUrl, getTokenFromUrl } from '../utilities';
+import { getTokenFromUrl } from '../utilities';
+import { CgRename } from 'react-icons/cg';
 
 const ProfileEditPage = () => {
   const { currentUser, updateUser } = useAuth();
@@ -48,9 +49,9 @@ const ProfileEditPage = () => {
       <PageTitle title='Profiel bewerken'/>
       <div className='content'>
         <div className='profile-edit'>
-          <TextInput placeholder='Naam bewerken' defaultValue={currentUser.name} onChange={(ev) =>  setNewName(ev.target.value)} />
-          <TextInput placeholder='Email bewerken' defaultValue={currentUser.email} onChange={(ev) =>  setNewEmail(ev.target.value)} />
-          <TextInput placeholder='Instrumenten bewerken' defaultValue={currentUser.instruments} onChange={(ev) =>  setNewInstruments(ev.target.value)} />
+          <TextInput placeholder='Naam bewerken' defaultValue={currentUser.name} onChange={(ev) =>  setNewName(ev.target.value)} icon={<CgRename />} />
+          <TextInput placeholder='Email bewerken' defaultValue={currentUser.email} onChange={(ev) =>  setNewEmail(ev.target.value)} icon='@' />
+          <TextInput placeholder='Instrumenten bewerken' defaultValue={currentUser.instruments} onChange={(ev) =>  setNewInstruments(ev.target.value)} icon={<CgRename />} />
           <Button placeholder='Opslaan' onClick={handleUpdate}/>
           { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
         </div>

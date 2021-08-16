@@ -110,6 +110,24 @@ const ApiProvider = ({children}) => {
     return project;
   }
 
+  const removeProject = async (token, id) => {
+    const url = `${BASE_URL}/projects/${id}`;
+
+    const myHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }
+    const options = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+    const response = await fetch(`${url}`, options);
+    const result = await response.json();
+    return result;
+  }
+
   const inviteToProject = async (token, id, email, role) => {
     const url = `${BASE_URL}/projects/${id}/invite`;
     const body = {
@@ -249,7 +267,7 @@ const ApiProvider = ({children}) => {
     };
     const response = await fetch(`${url}`, options);
     const pile = await response.json();
-    return pile.data;
+    return pile;
   }
 
   const updatePile = async (token, id, name, color_id) => {
@@ -466,7 +484,8 @@ const ApiProvider = ({children}) => {
       updateProject,
       usersInProject,
       removeUserFromProject,
-      updateUserRole
+      updateUserRole,
+      removeProject
     }}>
       {children}
     </ApiContext.Provider>

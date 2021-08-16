@@ -3,6 +3,9 @@ import * as Routes from '../routes';
 
 import Logo from '../assets/logo.svg';
 
+import { HiOutlineLockClosed } from 'react-icons/hi';
+import { CgRename } from 'react-icons/cg';
+
 import { Button, Errors, TextInput } from '../components';
 import { useAuth } from '../services';
 import { useHistory } from 'react-router';
@@ -43,10 +46,10 @@ const RegisterPage = () => {
         <div className='loginpage--form'>
           <img src={Logo} alt='Logo' className='loginpage--formlogo'/>
           <h2 className='loginpage--title'>Registeren</h2>
-          <TextInput placeholder='Naam' size='large' onChange={(ev) => setName(ev.target.value)} />
-          <TextInput placeholder='Email' size='large' onChange={(ev) => setEmail(ev.target.value)} />
-          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(ev) => setPassword(ev.target.value)}  />
-          <TextInput type='password' placeholder='Wachtwoord herhalen' size='large' onChange={(ev) => setPasswordRepeat(ev.target.value)} />
+          <TextInput placeholder='Naam' size='large' onChange={(ev) => setName(ev.target.value)} icon={<CgRename />} />
+          <TextInput placeholder='Email' size='large' onChange={(ev) => setEmail(ev.target.value)} icon='@' />
+          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(ev) => setPassword(ev.target.value)} icon={<HiOutlineLockClosed />} />
+          <TextInput type='password' placeholder='Wachtwoord herhalen' size='large' onChange={(ev) => setPasswordRepeat(ev.target.value)} icon={<HiOutlineLockClosed />} />
           <Button placeholder='Registreren' size='large' onClick={handleRegister}/>
           { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
         </div>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { useAuth } from '../services';
 
+import { HiOutlineLockClosed } from 'react-icons/hi';
+
 import Logo from '../assets/logo.svg';
 
 import { 
@@ -46,8 +48,8 @@ const LoginPage = () => {
         <div className='loginpage--form'>
           <img src={Logo} alt='Logo' className='loginpage--formlogo'/>
           <h2 className='loginpage--title'>Login</h2>
-          <TextInput placeholder='Email' size='large' onChange={(e) => setEmail(e.target.value)}/>
-          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(e) => setPassword(e.target.value)}/>
+          <TextInput placeholder='Email' size='large' onChange={(e) => setEmail(e.target.value)} icon='@' />
+          <TextInput type='password' placeholder='Wachtwoord' size='large' onChange={(e) => setPassword(e.target.value)} icon={<HiOutlineLockClosed />}/>
           <Button placeholder='Login' size='large' onClick={handleLogin}/>
           { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
           <div className='loginpage--seperator'/>

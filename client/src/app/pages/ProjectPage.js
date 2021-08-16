@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import {
   Button,
   ColorPicker,
+  Errors,
   Navigation, 
   PageTitle,
   Pile,
@@ -21,8 +22,10 @@ const ProjectPage = () => {
   const [ piles, setPiles ] = useState();
   const [ colors, setColors ] = useState();
   const [ title, setTitle ] = useState();
-  const [ selectedColor, setSelectedColor ] = useState(1);
+  const [ selectedColor, setSelectedColor ] = useState(null);
   const [ canEdit, setCanEdit ] = useState(false);
+  const [ errors, setErrors ] = useState();
+  const [ displayError, setDisplayError ] = useState(false);
   const { addColor, addPile, canEditProject, getProjectById, getAllColors } = useApi();
   const { currentUser } = useAuth();
   const history = useHistory();
@@ -53,15 +56,29 @@ const ProjectPage = () => {
   }, [initFetch]);
 
   const handleAdd = async () => {
-    if(isNaN(selectedColor)) {
-      const newColor = await addColor(currentUser.token, selectedColor, currentUser.id);
-      await addPile(currentUser.token, id, newColor.data.id, title);
-      let temp = await getProjectById(currentUser.token, id);
-      setPiles(temp.data.piles);
+    if (!selectedColor || title.trim() === '') {
+      setDisplayError(true);
+      setErrors(['Color and title are required.']);
+      return 1;
     } else {
-      await addPile(currentUser.token, id, selectedColor, title);
-      let temp = await getProjectById(currentUser.token, id);
-      setPiles(temp.data.piles);
+      setDisplayError(false);
+      setSelectedColor(null);
+      if(isNaN(selectedColor)) {
+        const newColor = await addColor(currentUser.token, selectedColor, currentUser.id);
+        const result = await addPile(currentUser.token, id, newColor.data.id, title);
+        if (result.success) {
+          let temp = await getProjectById(currentUser.token, id);
+          setPiles(temp.data.piles);
+          return true;
+        } else return false;
+      } else {
+        const result = await addPile(currentUser.token, id, selectedColor, title);
+        if (result.success) {
+          let temp = await getProjectById(currentUser.token, id);
+          setPiles(temp.data.piles);
+          return true;
+        } else return false;
+      }
     }
   }
 
@@ -98,6 +115,11 @@ const ProjectPage = () => {
               <TextInput onChange={(ev) => setTitle(ev.target.value)} icon={<CgRename />} placeholder='Titel stapel' />
               <span>Kies een kleur:</span>
               <ColorPicker setSelectedColor={setSelectedColor} colors={colors} activeColor={selectedColor} />
+              <div className='mt-4'>
+                {
+                  displayError && <Errors errors={errors} message='Er is een fout opgetreden:'/>
+                }
+              </div>
             </PopupAdd>
           }
           <Masonry

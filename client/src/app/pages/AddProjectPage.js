@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { Button, Errors, Message, Navigation, PageTitle, TextInput } from '../components';
 import { CgCloseO } from 'react-icons/cg';
+import { CgRename } from 'react-icons/cg';
 
 import * as Routes from '../routes';
 import { useApi, useAuth } from '../services';
@@ -44,7 +45,7 @@ const AddProjectPage = () => {
     <PageTitle title='Project aanmaken' hasButton={false}/>
     <div className='content'>
       <div className='addproject'>
-        <TextInput placeholder='Titel project' onChange={(ev) => setTitle(ev.target.value)} />
+        <TextInput placeholder='Titel project' onChange={(ev) => setTitle(ev.target.value)} icon={<CgRename />} />
         <Button placeholder='Project aanmaken' onClick={handleCreate} />
         { displayError ? <Errors message='Er is een fout opgetreden:' errors={errors}/> : null }
       </div>

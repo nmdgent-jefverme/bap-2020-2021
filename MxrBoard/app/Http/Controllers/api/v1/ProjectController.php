@@ -38,6 +38,15 @@ class ProjectController extends BaseController
         }
     }
 
+    public function deleteProject (Project $project) {
+        $result = $project->delete();
+        if($result) {
+            return $this->sendResponse($project, 'Project deleted successfully.');
+        } else {
+            return $this->sendError('Project deleted successfully.', [], 400);
+        }
+    }
+
     public function createProject(Request $r) {
         $validator = Validator::make($r->all(), [
             'title' => 'required',
