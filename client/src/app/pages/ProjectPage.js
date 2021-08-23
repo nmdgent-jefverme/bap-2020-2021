@@ -99,7 +99,7 @@ const ProjectPage = () => {
           info={true} 
           author={projectData.author.name} 
           date={new Date(projectData.updated_at).toLocaleDateString()}
-          inviteBtn={canEdit}
+          inviteBtn={projectData.author_id === currentUser.id}
           projectId={id}
         />
       }

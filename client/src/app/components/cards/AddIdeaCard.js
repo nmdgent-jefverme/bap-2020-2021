@@ -53,7 +53,7 @@ const AddIdeaCard = ({color, project_id, pile_id, fetchData}) => {
   useEffect(() => {
     if (validateYouTubeUrl(newIdea)) {
       setIsYoutube(true);
-    }
+    } else setIsYoutube(false);
   }, [newIdea, fetchData])
 
   const textInputClicked = () => {
